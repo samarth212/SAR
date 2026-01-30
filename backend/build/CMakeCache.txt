@@ -137,7 +137,7 @@ CMAKE_PROJECT_DESCRIPTION:STATIC=
 CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=alpaca_ws_demo
+CMAKE_PROJECT_NAME:STATIC=main
 
 //Value Computed by CMake
 CMAKE_PROJECT_SPDX_LICENSE:STATIC=
@@ -233,6 +233,15 @@ alpaca_ws_demo_SOURCE_DIR:STATIC=/Users/samarth/Desktop/SAR/backend
 
 //The directory containing a CMake configuration file for boost_headers.
 boost_headers_DIR:PATH=/opt/homebrew/lib/cmake/boost_headers-1.90.0
+
+//Value Computed by CMake
+main_BINARY_DIR:STATIC=/Users/samarth/Desktop/SAR/backend/build
+
+//Value Computed by CMake
+main_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+main_SOURCE_DIR:STATIC=/Users/samarth/Desktop/SAR/backend
 
 
 ########################

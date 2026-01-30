@@ -117,41 +117,41 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named alpaca_ws_demo
+# Target rules for targets named main
 
 # Build rule for target.
-alpaca_ws_demo: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 alpaca_ws_demo
-.PHONY : alpaca_ws_demo
+main: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 main
+.PHONY : main
 
 # fast build rule for target.
-alpaca_ws_demo/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/alpaca_ws_demo.dir/build.make CMakeFiles/alpaca_ws_demo.dir/build
-.PHONY : alpaca_ws_demo/fast
+main/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/build
+.PHONY : main/fast
 
-alpaca_ws_demo.o: alpaca_ws_demo.cpp.o
-.PHONY : alpaca_ws_demo.o
+main.o: main.cpp.o
+.PHONY : main.o
 
 # target to build an object file
-alpaca_ws_demo.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/alpaca_ws_demo.dir/build.make CMakeFiles/alpaca_ws_demo.dir/alpaca_ws_demo.cpp.o
-.PHONY : alpaca_ws_demo.cpp.o
+main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/main.cpp.o
+.PHONY : main.cpp.o
 
-alpaca_ws_demo.i: alpaca_ws_demo.cpp.i
-.PHONY : alpaca_ws_demo.i
+main.i: main.cpp.i
+.PHONY : main.i
 
 # target to preprocess a source file
-alpaca_ws_demo.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/alpaca_ws_demo.dir/build.make CMakeFiles/alpaca_ws_demo.dir/alpaca_ws_demo.cpp.i
-.PHONY : alpaca_ws_demo.cpp.i
+main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/main.cpp.i
+.PHONY : main.cpp.i
 
-alpaca_ws_demo.s: alpaca_ws_demo.cpp.s
-.PHONY : alpaca_ws_demo.s
+main.s: main.cpp.s
+.PHONY : main.s
 
 # target to generate assembly for a file
-alpaca_ws_demo.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/alpaca_ws_demo.dir/build.make CMakeFiles/alpaca_ws_demo.dir/alpaca_ws_demo.cpp.s
-.PHONY : alpaca_ws_demo.cpp.s
+main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/main.cpp.s
+.PHONY : main.cpp.s
 
 # Help Target
 help:
@@ -161,10 +161,10 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... alpaca_ws_demo"
-	@echo "... alpaca_ws_demo.o"
-	@echo "... alpaca_ws_demo.i"
-	@echo "... alpaca_ws_demo.s"
+	@echo "... main"
+	@echo "... main.o"
+	@echo "... main.i"
+	@echo "... main.s"
 .PHONY : help
 
 
