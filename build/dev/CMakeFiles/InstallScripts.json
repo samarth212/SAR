@@ -1,8 +1,0 @@
-{
-	"InstallScripts" : 
-	[
-		"/Users/samarth/Desktop/SAR/build/dev/cmake_install.cmake",
-		"/Users/samarth/Desktop/SAR/build/dev/services/hello-service/cmake_install.cmake"
-	],
-	"Parallel" : false
-}
