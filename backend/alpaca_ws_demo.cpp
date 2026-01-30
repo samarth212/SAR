@@ -54,6 +54,9 @@ int main() {
         tcp::resolver resolver{ioc};
         auto const results = resolver.resolve(host, port); // find the server address which matches the host and port
         
+        // connect TCP first so the SSL handshake has a valid socket
+        net::connect(ws.next_layer().next_layer(), results.begin(), results.end());
+
         // This sets the server name so the secure connection is made to the right site.
         if (!SSL_set_tlsext_host_name(ws.next_layer().native_handle(), host.c_str())) {
             // This builds an error code if setting the server name fails.
@@ -65,7 +68,7 @@ int main() {
             throw beast::system_error{ec};
         }
 
-        // start connection with server
+        // start TLS handshake with server
         ws.next_layer().handshake(ssl::stream_base::client);
 
         // start the WebSocket session on top of the encrypted connection
