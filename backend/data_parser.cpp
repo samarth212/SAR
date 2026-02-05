@@ -8,6 +8,8 @@ std::vector<MarketEvent> parseMessage(const std::string& jsonText){
 
     json parsedOutput = json::parse(jsonText);
     std::vector<Quote> Quotes;
+    std::vector<Trade> Trades;
+    std::vector<Bar> Bars;
 
     // build quote
     Quote newQuote;
@@ -20,6 +22,17 @@ std::vector<MarketEvent> parseMessage(const std::string& jsonText){
     newQuote.conditions = parsedOutput.at("c").get<std::vector<std::string>>();
     newQuote.tape = parsedOutput.at("z").get<std::string>();
     newQuote.get_to(Quotes)
+
+
+
+    // build trade
+    Trade newTrade;
+    newTrade.price = parsedOutput.at("p").get<double>();
+    newTrade.size = parsedOutput.at("s").get<std::int64_t>();
+    newTrade.exchange = parsedOutput.at("x").get<std::string>();
+    newTrade.conditions = parsedOutput.at("c").get<std::vector<std::string>>();
+    newTrade.tape = parsedOutput.at("z").get<std::string>();
+    newTrade.get_to(Trades)
 
 
     std::cout << "Vector items: ";
