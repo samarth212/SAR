@@ -118,9 +118,17 @@ int main() {
             // read next message from the stream
             ws.read(buffer);
 
-            std::cout << beast::make_printable(buffer.data()) << "\n";
-
-            buffer.consume(buffer.size());
+            // Convert to string
+            std::string message = beast::buffers_to_string(buffer.data());
+            
+            // TRANSFER: Call the parser function and give it the message
+            std::vector<TradeData> trades = parser.parseMessage(message);
+            
+            // USE the returned data
+            for (const auto& trade : trades) {
+                std::cout << "Got trade: " << trade.symbol 
+                        << " at $" << trade.price << "\n";
+        }
 
         }
     }
