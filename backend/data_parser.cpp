@@ -34,6 +34,18 @@ std::vector<MarketEvent> parseMessage(const std::string& jsonText){
     newTrade.tape = parsedOutput.at("z").get<std::string>();
     newTrade.get_to(Trades)
 
+    // build bar
+    Bar newBar;
+    newBar.open = parsedOutput.at("o").get<double>();
+    newBar.high = parsedOutput.at("h").get<double>();
+    newBar.low = parsedOutput.at("l").get<double>();
+    newBar.close = parsedOutput.at("c").get<double>();
+    newBar.volume = parsedOutput.at("v").get<std::int64_t>();
+    newBar.trade_count = parsedOutput.at("n").get<std::int64_t>();
+    newBar.vwap = parsedOutput.at("vw").get<std::optional<double>>();
+   
+    newBar.get_to(Bars)
+
 
     std::cout << "Vector items: ";
     for (int item : v) {
