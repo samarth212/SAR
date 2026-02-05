@@ -100,7 +100,7 @@ int main() {
 
         buffer.consume(buffer.size());
 
-        // asks for trade updates for the test symbol FAKEPACA
+        // asks for trade updates
         std::string sub_msg = R"({"action":"subscribe","trades":["AAPL"],"quotes":["AAPL"],"bars":["AAPL"]})";
         // sends the subscribe request to Alpaca.
         ws.write(net::buffer(sub_msg));
