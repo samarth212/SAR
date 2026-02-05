@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/Users/samarth/Desktop/SAR/backend/build",
+  "command": "/usr/bin/c++  -isystem /opt/homebrew/include -std=gnu++17 -o CMakeFiles/main.dir/main.cpp.o -c /Users/samarth/Desktop/SAR/backend/main.cpp",
+  "file": "/Users/samarth/Desktop/SAR/backend/main.cpp",
+  "output": "CMakeFiles/main.dir/main.cpp.o"
+}
+]
