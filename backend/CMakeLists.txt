@@ -8,5 +8,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(Boost REQUIRED)
 find_package(OpenSSL REQUIRED)
 
-add_executable(main main.cpp)
+add_executable(main
+    main.cpp
+    data_parser.cpp
+    anomaly_detector.cpp
+)
 target_link_libraries(main PRIVATE Boost::boost OpenSSL::SSL OpenSSL::Crypto)

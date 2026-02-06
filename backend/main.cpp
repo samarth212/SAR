@@ -87,7 +87,7 @@ int main() {
         ws.read(buffer);
 
         // print to terminal
-        std::cout << beast::make_printable(buffer.data()) << "\n";
+        //std::cout << beast::make_printable(buffer.data()) << "\n";
 
         // This clears the buffer so we can reuse it.
         buffer.consume(buffer.size());
@@ -102,7 +102,7 @@ int main() {
         // reads Alpaca’s response to the login
         ws.read(buffer);
 
-        std::cout << beast::make_printable(buffer.data()) << "\n";
+        //std::cout << beast::make_printable(buffer.data()) << "\n";
 
         buffer.consume(buffer.size());
 
@@ -114,7 +114,7 @@ int main() {
         // reads Alpaca’s response to the subscribe request
         ws.read(buffer);
 
-        std::cout << beast::make_printable(buffer.data()) << "\n";
+        //std::cout << beast::make_printable(buffer.data()) << "\n";
 
         buffer.consume(buffer.size());
 
@@ -131,6 +131,7 @@ int main() {
             auto events = parseMessage(message);
             updateState(bySymbol, events);
             
+            /*
             // test print trades
             for (const auto& ev : events) {
                 if (ev.type == MarketEventType::Trade) {
@@ -139,6 +140,11 @@ int main() {
                             << " size=" << tr.size << " time=" << ev.timestamp << "\n";
                 }
             }
+            */
+           for (const auto& pair : bySymbol) {
+               std::cout << "Symbol: " << pair.first << "\n";
+           }
+            
 
         }
     }

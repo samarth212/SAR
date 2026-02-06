@@ -129,6 +129,54 @@ main/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/build
 .PHONY : main/fast
 
+anomaly_detector.o: anomaly_detector.cpp.o
+.PHONY : anomaly_detector.o
+
+# target to build an object file
+anomaly_detector.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/anomaly_detector.cpp.o
+.PHONY : anomaly_detector.cpp.o
+
+anomaly_detector.i: anomaly_detector.cpp.i
+.PHONY : anomaly_detector.i
+
+# target to preprocess a source file
+anomaly_detector.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/anomaly_detector.cpp.i
+.PHONY : anomaly_detector.cpp.i
+
+anomaly_detector.s: anomaly_detector.cpp.s
+.PHONY : anomaly_detector.s
+
+# target to generate assembly for a file
+anomaly_detector.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/anomaly_detector.cpp.s
+.PHONY : anomaly_detector.cpp.s
+
+data_parser.o: data_parser.cpp.o
+.PHONY : data_parser.o
+
+# target to build an object file
+data_parser.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/data_parser.cpp.o
+.PHONY : data_parser.cpp.o
+
+data_parser.i: data_parser.cpp.i
+.PHONY : data_parser.i
+
+# target to preprocess a source file
+data_parser.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/data_parser.cpp.i
+.PHONY : data_parser.cpp.i
+
+data_parser.s: data_parser.cpp.s
+.PHONY : data_parser.s
+
+# target to generate assembly for a file
+data_parser.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/data_parser.cpp.s
+.PHONY : data_parser.cpp.s
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -162,6 +210,12 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... main"
+	@echo "... anomaly_detector.o"
+	@echo "... anomaly_detector.i"
+	@echo "... anomaly_detector.s"
+	@echo "... data_parser.o"
+	@echo "... data_parser.i"
+	@echo "... data_parser.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

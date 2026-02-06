@@ -1,17 +1,6 @@
 #include "data_parser.h"
 #include <iostream>
 
-struct SymbolState {
-    std::optional<Quote> lastQuote;
-    std::optional<Trade> lastTrade;
-    std::optional<Bar>   lastBar;
-
-    // rolling windows for anomaly calculations
-    std::deque<double> prices;       // choose trade price or quote mid or bar close
-    std::deque<std::int64_t> sizes;  // trade size or bar volume
-    std::deque<double> spreads;      // from quote, optional
-};
-
 
 // keep only last N points so memory stays bounded
 static void push_bounded(std::deque<double>& dq, double x, std::size_t maxN) {
@@ -26,7 +15,7 @@ static void push_bounded(std::deque<std::int64_t>& dq, std::int64_t x, std::size
 // updates the map using parsed events
 void updateState(std::unordered_map<std::string, SymbolState>& bySymbol,
                         const std::vector<MarketEvent>& events,
-                        std::size_t windowN = 200) {
+                        std::size_t windowN) {
     for (const auto& ev : events) {
         auto& state = bySymbol[ev.symbol];
 
@@ -142,9 +131,9 @@ std::vector<MarketEvent> parseMessage(const std::string& jsonText){
         }
 
    
-    }
+    };
 
-    if(parsedOutput.is_array()){
+    if (parsedOutput.is_array()) {
         for (const auto& msg : parsedOutput){
             handle_datatype(msg);
         } 
