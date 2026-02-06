@@ -143,6 +143,14 @@ int main() {
             */
            for (const auto& pair : bySymbol) {
                std::cout << "Symbol: " << pair.first << "\n";
+               const auto& state = pair.second;
+
+               if (state.lastTrade){
+                    std::cout << "Last trade price: " << state.lastTrade->price << " size: " << state.lastTrade->size << "\n";
+               }
+                    
+               
+
            }
             
 
