@@ -47,24 +47,24 @@ Maybe track how long the anomaly lasts
 
 double averagePriceOfRecentTrades(const std::string& symbol, const std::unordered_map<std::string, SymbolState>& bySymbol){
 
-    if (!symbol || bySymbol.contains(symbol)){
-        return 0;
+    if (symbol.empty() || !bySymbol.contains(symbol)){
+        return 0.0;
     }
 
 
-    double sum = 0;
-    const auto& state = bySymbol.at(symbol);
-
-
+    const auto& state  = bySymbol.at(symbol);
     const auto& prices = state.prices;
-    if(prices){
-        for (double price: prices){
-            sum += price;
-        }
+
+    if (prices.empty()) return 0.0;
+
+    double sum = 0.0;
+
+    for (double price: prices){
+        sum += price;
     }
 
+    return sum / static_cast<double>(prices.size());
 
-    return sum/prices.size();
 
 }
 
