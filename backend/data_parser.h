@@ -7,6 +7,10 @@
 #include <variant>
 #include <vector>
 #include <nlohmann/json.hpp>
+#include <unordered_map>
+#include <deque>
+#include <optional>
+
 
 using json = nlohmann::json;
 
@@ -29,6 +33,7 @@ enum class MarketEventType {
     Trade,
     Bar
 };
+
 
 struct Quote {
     std::string bid_exchange;                // bx
@@ -80,9 +85,24 @@ struct MarketEvent {
     std::variant<Quote, Trade, Bar> data;
 };
 
+struct SymbolState {
+    std::optional<Quote> lastQuote;
+    std::optional<Trade> lastTrade;
+    std::optional<Bar>   lastBar;
+
+    std::deque<double> prices;
+    std::deque<std::int64_t> sizes;
+    std::deque<double> spreads;
+};
+
+std::vector<MarketEvent> parseMessage(const std::string& jsonText);
+
+void updateState(std::unordered_map<std::string, SymbolState>& bySymbol,
+                 const std::vector<MarketEvent>& events,
+                 std::size_t windowN = 200);
+
 class DataParser {
 public:
-    // This function RECEIVES a string and RETURNS a vector
     std::vector<MarketEvent> parseMessage(const std::string& jsonText);
 };
 

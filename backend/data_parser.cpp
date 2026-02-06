@@ -1,8 +1,5 @@
 #include "data_parser.h"
 #include <iostream>
-#include <unordered_map>
-#include <deque>
-#include <optional>
 
 struct SymbolState {
     std::optional<Quote> lastQuote;
@@ -15,6 +12,7 @@ struct SymbolState {
     std::deque<double> spreads;      // from quote, optional
 };
 
+
 // keep only last N points so memory stays bounded
 static void push_bounded(std::deque<double>& dq, double x, std::size_t maxN) {
     dq.push_back(x);
@@ -26,7 +24,7 @@ static void push_bounded(std::deque<std::int64_t>& dq, std::int64_t x, std::size
 }
 
 // updates the map using parsed events
-static void updateState(std::unordered_map<std::string, SymbolState>& bySymbol,
+void updateState(std::unordered_map<std::string, SymbolState>& bySymbol,
                         const std::vector<MarketEvent>& events,
                         std::size_t windowN = 200) {
     for (const auto& ev : events) {
@@ -149,10 +147,12 @@ std::vector<MarketEvent> parseMessage(const std::string& jsonText){
     if(parsedOutput.is_array()){
         for (const auto& msg : parsedOutput){
             handle_datatype(msg);
-        } else{
-            handle_datatype(parsedOutput);
-        }
+        } 
     }
+    else{
+            handle_datatype(parsedOutput);
+    }
+    
 
     return results;
 
@@ -163,4 +163,3 @@ std::vector<MarketEvent> parseMessage(const std::string& jsonText){
 
 
 
-std::unordered_map<std::string, SymbolState> bySymbol;

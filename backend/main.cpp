@@ -9,12 +9,18 @@
 #include <cstdlib>
 #include <iostream>
 #include <string>
+#include <unordered_map>
+
+#include "data_parser.h"
+
 
 namespace beast = boost::beast;
 namespace websocket = beast::websocket;
 namespace net = boost::asio;
 namespace ssl = net::ssl;
 using tcp = net::ip::tcp;
+
+std::unordered_map<std::string, SymbolState> bySymbol;
 
 
 // helper method to handle env vars
@@ -120,15 +126,19 @@ int main() {
 
             // Convert to string
             std::string message = beast::buffers_to_string(buffer.data());
+            buffer.consume(buffer.size());
             
-            // TRANSFER: Call the parser function and give it the message
-            std::vector<TradeData> trades = parser.parseMessage(message);
+            auto events = parseMessage(message);
+            updateState(bySymbol, events);
             
-            // USE the returned data
-            for (const auto& trade : trades) {
-                std::cout << "Got trade: " << trade.symbol 
-                        << " at $" << trade.price << "\n";
-        }
+            // test print trades
+            for (const auto& ev : events) {
+                if (ev.type == MarketEventType::Trade) {
+                    const Trade& tr = std::get<Trade>(ev.data);
+                    std::cout << "Trade " << ev.symbol << " price=" << tr.price
+                            << " size=" << tr.size << " time=" << ev.timestamp << "\n";
+                }
+            }
 
         }
     }
