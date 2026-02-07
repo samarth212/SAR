@@ -96,7 +96,7 @@ std::optional<Anomaly> detectPriceAnomaly(const std::string& symbol, const std::
     if (!state.lastTrade.has_value()) {
         return std::nullopt;
     }
-    const auto& newPrice = state.lastTrade.value().price;
+    const double newPrice = state.lastTrade.value().price;
     const auto& prices = state.prices;
 
 
@@ -124,7 +124,7 @@ std::optional<Anomaly> detectPriceAnomaly(const std::string& symbol, const std::
 
         newAnomaly.lower = avgPrice - (k * stdev);
         newAnomaly.upper = avgPrice + (k * stdev);
-        newAnomaly.upper = k;
+        newAnomaly.k = k;
 
         newAnomaly.note =
         "Upward price anomaly: " + symbol +
@@ -137,7 +137,7 @@ std::optional<Anomaly> detectPriceAnomaly(const std::string& symbol, const std::
 
         return newAnomaly;
     }
-    else if(newPrice > avgPrice - (k * stdev)){
+    else if(newPrice < avgPrice - (k * stdev)){
         Anomaly newAnomaly;
         newAnomaly.type = AnomalyType::Price;
         newAnomaly.source = SourceType::Trade;
@@ -153,16 +153,16 @@ std::optional<Anomaly> detectPriceAnomaly(const std::string& symbol, const std::
 
         newAnomaly.lower = avgPrice - (k * stdev);
         newAnomaly.upper = avgPrice + (k * stdev);
-        newAnomaly.upper = k;
+        newAnomaly.k = k;
 
         newAnomaly.note =
         "Downward price anomaly: " + symbol +
         " traded at " + std::to_string(newPrice) +
-        ", which is above the recent average " + std::to_string(avgPrice) +
-        " by " + std::to_string(newPrice - avgPrice) +
-        " (" + std::to_string(newAnomaly.zscore) + " standard deviations). "
-        "This suggests an unusually strong move compared to the stock's recent behavior, "
-        "which can happen when new information hits the market or when short-term buying pressure spikes.";
+        ", which is below the recent average " + std::to_string(avgPrice) +
+        " by " + std::to_string(avgPrice - newPrice) +
+        " (" + std::to_string(-newAnomaly.zscore) + " standard deviations, threshold < " +
+        std::to_string(newAnomaly.lower) + "). "
+        "This suggests an unusually sharp drop compared to recent behavior, which can occur when negative news hits or short-term selling pressure increases.";
 
         return newAnomaly;
     }
