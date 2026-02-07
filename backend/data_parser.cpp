@@ -33,14 +33,14 @@ void updateState(std::unordered_map<std::string, SymbolState>& bySymbol,
             state.lastTrade = tr;
 
             if (tr.price > 0.0) push_bounded(state.prices, tr.price, windowN);
-            if (tr.size > 0)    push_bounded(state.sizes, tr.size, windowN);
+            if (tr.size > 0)    push_bounded(state.tradeSizes, tr.size, windowN);
         }
         else if (ev.type == MarketEventType::Bar) {
             const Bar& b = std::get<Bar>(ev.data);
             state.lastBar = b;
 
             if (b.close > 0.0)  push_bounded(state.prices, b.close, windowN);
-            if (b.volume > 0)   push_bounded(state.sizes, b.volume, windowN);
+            if (b.volume > 0)   push_bounded(state.barVolumes, b.volume, windowN);
         }
     }
 }

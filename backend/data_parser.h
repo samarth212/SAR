@@ -91,7 +91,8 @@ struct SymbolState {
     std::optional<Bar>   lastBar;
 
     std::deque<double> prices;
-    std::deque<std::int64_t> sizes;
+    std::deque<std::int64_t> barVolumes;
+    std::deque<std::int64_t> tradeSizes;
     std::deque<double> spreads;
 };
 

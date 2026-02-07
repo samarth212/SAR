@@ -18,7 +18,7 @@ Maybe keep the last 20-50 data points so you can calculate averages.
 Step 3: Calculate What's "Normal"
 For each new piece of data, calculate:
 
-Average price of recent trades
+Average price of recent trades 
 Average volume of recent trades
 Standard deviation (how spread out the prices usually are)
 
@@ -65,6 +65,25 @@ double averagePriceOfRecentTrades(const std::string& symbol, const std::unordere
 
     return sum / static_cast<double>(prices.size());
 
+}
+
+double averageVolumeOfRecentTrades(const std::string& symbol, const std::unordered_map<std::string, SymbolState>& bySymbol){
+
+    if (symbol.empty() || !bySymbol.contains(symbol)){
+        return 0.0;
+    }
+    const auto& state  = bySymbol.at(symbol);
+    const auto& prices = state.prices;
+
+    if (prices.empty()) return 0.0;
+
+    double sum = 0.0;
+
+    for (double price: prices){
+        sum += price;
+    }
+
+    return sum / static_cast<double>(prices.size());
 
 }
 
