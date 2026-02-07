@@ -45,6 +45,42 @@ Maybe track how long the anomaly lasts
 
 */
 
+enum class AnomalyType {
+    Price,
+    Volume,
+    Spread,
+    Volatility,
+    Range,
+    Gap,
+    Liquidity,
+    StaleData,
+    ParseError
+};
+
+enum class SourceType { Trade, Quote, Bar };
+enum class Direction { Up, Down, None };
+
+struct Anomaly{
+    AnomalyType type = AnomalyType::Price;
+    SourceType source = SourceType::Trade;
+    Direction direction = Direction::None;
+
+    std::string symbol;
+    std::string timestamp;     
+    std::int64_t ts_ns = 0;   
+
+    // for why it triggered can be used later
+    double value = 0.0;        // observed value (price, volume, spread, etc.)
+    double mean = 0.0;         // baseline average
+    double stdev = 0.0;        // baseline std dev
+    double zscore = 0.0;       // (value - mean) / stdev when stdev > 0
+
+    double lower = 0.0;        // mean - k*stdev
+    double upper = 0.0;        // mean + k*stdev
+    double k = 0.0;            // how many std devs you used
+
+    std::string note;          // message
+};
 
 double averagePriceOfRecentTrades(const std::string& symbol, const std::unordered_map<std::string, SymbolState>& bySymbol);
 
