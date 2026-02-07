@@ -67,7 +67,7 @@ struct Anomaly{
 
     std::string symbol;
     std::string timestamp;     
-    std::int64_t ts_ns = 0;   
+    //std::int64_t ts_ns = 0;   
 
     // for why it triggered can be used later
     double value = 0.0;        // observed value (price, volume, spread, etc.)

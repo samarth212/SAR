@@ -87,14 +87,14 @@ T calcSTDEV(const std::deque<T>& data){
 }
 
 
-Anomaly detectPriceAnomaly(const std::string& symbol, const std::unordered_map<std::string, SymbolState>& bySymbol, double k){
+std::optional<Anomaly> detectPriceAnomaly(const std::string& symbol, const std::unordered_map<std::string, SymbolState>& bySymbol, double k){
     if (symbol.empty() || !bySymbol.contains(symbol)){
-        return;
+        return std::nullopt;
     }
 
     const auto& state  = bySymbol.at(symbol);
     if (!state.lastTrade.has_value()) {
-        return;
+        return std::nullopt;
     }
     const auto& newPrice = state.lastTrade.value().price;
     const auto& prices = state.prices;
@@ -103,15 +103,31 @@ Anomaly detectPriceAnomaly(const std::string& symbol, const std::unordered_map<s
     double avgPrice = averagePriceOfRecentTrades(symbol, bySymbol);
     double stdev = calcSTDEV<double>(prices);
 
+    constexpr double EPS = 1e-9;
+    if (stdev <= EPS) {
+        return std::nullopt;
+    }
+
     if(newPrice > avgPrice + (k * stdev)){
         Anomaly newAnomaly;
         newAnomaly.type = AnomalyType::Price;
+        newAnomaly.source = SourceType::Trade;
+        newAnomaly.direction = Direction::Up;
+
+        newAnomaly.symbol = symbol;
+        newAnomaly.timestamp = state.lastTradeTs;
+        
+        newAnomaly.value = newPrice;
+        newAnomaly.mean = avgPrice;
+        newAnomaly.stdev = stdev;
+        newAnomaly.zscore = (newPrice - avgPrice)/stdev;
+
+
+
         
     }
     else if(newPrice > avgPrice - (k * stdev)){
         //down anomaly
     }
-    else{
-        return;
-    }
+    return std::nullopt;
 }

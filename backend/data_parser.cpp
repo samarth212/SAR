@@ -22,6 +22,7 @@ void updateState(std::unordered_map<std::string, SymbolState>& bySymbol,
         if (ev.type == MarketEventType::Quote) {
             const Quote& q = std::get<Quote>(ev.data);
             state.lastQuote = q;
+            state.lastQuoteTs = ev.timestamp;
 
             double mid = q.mid_price();
             double spr = q.spread();
@@ -31,13 +32,17 @@ void updateState(std::unordered_map<std::string, SymbolState>& bySymbol,
         else if (ev.type == MarketEventType::Trade) {
             const Trade& tr = std::get<Trade>(ev.data);
             state.lastTrade = tr;
+            state.lastTradeTs = ev.timestamp;
 
             if (tr.price > 0.0) push_bounded(state.prices, tr.price, windowN);
             if (tr.size > 0)    push_bounded(state.tradeSizes, tr.size, windowN);
+            
         }
         else if (ev.type == MarketEventType::Bar) {
             const Bar& b = std::get<Bar>(ev.data);
             state.lastBar = b;
+            state.lastBarTs = ev.timestamp;
+
 
             if (b.close > 0.0)  push_bounded(state.prices, b.close, windowN);
             if (b.volume > 0)   push_bounded(state.barVolumes, b.volume, windowN);
