@@ -67,23 +67,23 @@ double averagePriceOfRecentTrades(const std::string& symbol, const std::unordere
 
 }
 
-double averageVolumeOfRecentTrades(const std::string& symbol, const std::unordered_map<std::string, SymbolState>& bySymbol){
+std::int64_t averageVolumeOfRecentTrades(const std::string& symbol, const std::unordered_map<std::string, SymbolState>& bySymbol){
 
     if (symbol.empty() || !bySymbol.contains(symbol)){
         return 0.0;
     }
     const auto& state  = bySymbol.at(symbol);
-    const auto& prices = state.prices;
+    const auto& volumes = state.barVolumes;
 
-    if (prices.empty()) return 0.0;
+    if (volumes.empty()) return 0.0;
 
-    double sum = 0.0;
+    std::int64_t sum = 0.0;
 
-    for (double price: prices){
-        sum += price;
+    for (std::int64_t volume: volumes){
+        sum += volume;
     }
 
-    return sum / static_cast<double>(prices.size());
+    return sum / static_cast<std::int64_t>(volumes.size());
 
 }
 
