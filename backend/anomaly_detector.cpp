@@ -87,14 +87,14 @@ T calcSTDEV(const std::deque<T>& data){
 }
 
 
-double detectPriceAnomaly(const std::string& symbol, const std::unordered_map<std::string, SymbolState>& bySymbol, double k){
+Anomaly detectPriceAnomaly(const std::string& symbol, const std::unordered_map<std::string, SymbolState>& bySymbol, double k){
     if (symbol.empty() || !bySymbol.contains(symbol)){
-        return 0.0;
+        return;
     }
 
     const auto& state  = bySymbol.at(symbol);
     if (!state.lastTrade.has_value()) {
-        return 0.0;
+        return;
     }
     const auto& newPrice = state.lastTrade.value().price;
     const auto& prices = state.prices;
@@ -104,7 +104,9 @@ double detectPriceAnomaly(const std::string& symbol, const std::unordered_map<st
     double stdev = calcSTDEV<double>(prices);
 
     if(newPrice > avgPrice + (k * stdev)){
-        //up anomaly
+        Anomaly newAnomaly;
+        newAnomaly.type = AnomalyType::Price;
+        
     }
     else if(newPrice > avgPrice - (k * stdev)){
         //down anomaly

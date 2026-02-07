@@ -90,6 +90,10 @@ struct SymbolState {
     std::optional<Trade> lastTrade;
     std::optional<Bar>   lastBar;
 
+    std::string lastQuoteTs;
+    std::string lastTradeTs;
+    std::string lastBarTs;
+
     std::deque<double> prices;
     std::deque<std::int64_t> barVolumes;
     std::deque<std::int64_t> tradeSizes;
