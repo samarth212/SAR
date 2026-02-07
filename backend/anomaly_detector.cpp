@@ -122,9 +122,20 @@ std::optional<Anomaly> detectPriceAnomaly(const std::string& symbol, const std::
         newAnomaly.stdev = stdev;
         newAnomaly.zscore = (newPrice - avgPrice)/stdev;
 
+        newAnomaly.lower = avgPrice - (k * stdev);
+        newAnomaly.upper = avgPrice + (k * stdev);
+        newAnomaly.upper = k;
 
+        newAnomaly.note =
+        "Upward price anomaly: " + symbol +
+        " traded at " + std::to_string(newPrice) +
+        ", which is above the recent average " + std::to_string(avgPrice) +
+        " by " + std::to_string(newPrice - avgPrice) +
+        " (" + std::to_string(newAnomaly.zscore) + " standard deviations). "
+        "This suggests an unusually strong move compared to the stock's recent behavior, "
+        "which can happen when new information hits the market or when short-term buying pressure spikes.";
 
-        
+        return newAnomaly;
     }
     else if(newPrice > avgPrice - (k * stdev)){
         //down anomaly
