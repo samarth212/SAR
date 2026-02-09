@@ -56,11 +56,19 @@ std::optional<Anomaly> detectSpreadAnomaly(const std::string& symbol, const std:
     const double ap = state.lastQuote.value().ask_price;
     const double bp = state.lastQuote.value().bid_price;
 
+    if (ap <= 0.0 || bp <= 0.0 || ap < bp) {
+        return std::nullopt;
+    }
+
     const double newSpread = ap - bp;
     const auto& spreads = state.spreads;
 
+    constexpr std::size_t MIN_POINTS = 20;
+    if (spreads.size() < MIN_POINTS) {
+        return std::nullopt;
+    }
 
-    double avgSpread = averagePriceOfRecentSpreads(symbol, bySymbol);
+    double avgSpread = averageSpreadOfRecentQuotes(symbol, bySymbol);
     double stdev = calcSTDEV<double>(spreads);
 
     constexpr double EPS = 1e-9;
