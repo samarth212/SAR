@@ -34,6 +34,10 @@ std::optional<Anomaly> detectPriceAnomaly(const std::string& symbol, const std::
     const double newPrice = state.lastTrade.value().price;
     const auto& prices = state.prices;
 
+    constexpr std::size_t MIN_POINTS = 20;
+    if (prices.size() < MIN_POINTS) {
+        return std::nullopt;
+    }
 
     double avgPrice = averagePriceOfRecentTrades(symbol, bySymbol);
     double stdev = calcSTDEV<double>(prices);

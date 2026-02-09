@@ -48,7 +48,7 @@ std::optional<Anomaly> detectSpreadAnomaly(const std::string& symbol, const std:
         return std::nullopt;
     }
 
-    const auto& state  = bySymbol.at(symbol);
+    const auto& state = bySymbol.at(symbol);
     if (!state.lastQuote.has_value()) {
         return std::nullopt;
     }

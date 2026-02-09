@@ -34,6 +34,11 @@ std::optional<Anomaly> detectVolumeAnomaly(const std::string& symbol, const std:
     const std::int64_t newVolume = state.lastBar.value().volume;
     const auto& volumes = state.barVolumes;
 
+    constexpr std::size_t MIN_POINTS = 20;
+    if (volumes.size() < MIN_POINTS) {
+        return std::nullopt;
+    }
+
     const double avgVolume = averageVolumeOfRecentTrades(symbol, bySymbol);
     const double stdev = calcSTDEV<std::int64_t>(volumes);
 
