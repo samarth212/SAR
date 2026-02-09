@@ -201,6 +201,54 @@ main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+priceAnomaly.o: priceAnomaly.cpp.o
+.PHONY : priceAnomaly.o
+
+# target to build an object file
+priceAnomaly.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/priceAnomaly.cpp.o
+.PHONY : priceAnomaly.cpp.o
+
+priceAnomaly.i: priceAnomaly.cpp.i
+.PHONY : priceAnomaly.i
+
+# target to preprocess a source file
+priceAnomaly.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/priceAnomaly.cpp.i
+.PHONY : priceAnomaly.cpp.i
+
+priceAnomaly.s: priceAnomaly.cpp.s
+.PHONY : priceAnomaly.s
+
+# target to generate assembly for a file
+priceAnomaly.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/priceAnomaly.cpp.s
+.PHONY : priceAnomaly.cpp.s
+
+volumeAnomaly.o: volumeAnomaly.cpp.o
+.PHONY : volumeAnomaly.o
+
+# target to build an object file
+volumeAnomaly.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/volumeAnomaly.cpp.o
+.PHONY : volumeAnomaly.cpp.o
+
+volumeAnomaly.i: volumeAnomaly.cpp.i
+.PHONY : volumeAnomaly.i
+
+# target to preprocess a source file
+volumeAnomaly.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/volumeAnomaly.cpp.i
+.PHONY : volumeAnomaly.cpp.i
+
+volumeAnomaly.s: volumeAnomaly.cpp.s
+.PHONY : volumeAnomaly.s
+
+# target to generate assembly for a file
+volumeAnomaly.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/volumeAnomaly.cpp.s
+.PHONY : volumeAnomaly.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -219,6 +267,12 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... priceAnomaly.o"
+	@echo "... priceAnomaly.i"
+	@echo "... priceAnomaly.s"
+	@echo "... volumeAnomaly.o"
+	@echo "... volumeAnomaly.i"
+	@echo "... volumeAnomaly.s"
 .PHONY : help
 
 

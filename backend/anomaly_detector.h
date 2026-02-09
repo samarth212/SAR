@@ -86,4 +86,6 @@ double averagePriceOfRecentTrades(const std::string& symbol, const std::unordere
 
 std::int64_t averageVolumeOfRecentTrades(const std::string& symbol, const std::unordered_map<std::string, SymbolState>& bySymbol);
 
-double calcSTDEV(const std::deque<double>& data);
+std::optional<Anomaly> detectPriceAnomaly(const std::string& symbol, const std::unordered_map<std::string, SymbolState>& bySymbol, double k);
+
+std::optional<Anomaly> detectVolumeAnomaly(const std::string& symbol, const std::unordered_map<std::string, SymbolState>& bySymbol, double k);

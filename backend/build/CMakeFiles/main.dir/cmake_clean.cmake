@@ -5,6 +5,10 @@ file(REMOVE_RECURSE
   "CMakeFiles/main.dir/data_parser.cpp.o.d"
   "CMakeFiles/main.dir/main.cpp.o"
   "CMakeFiles/main.dir/main.cpp.o.d"
+  "CMakeFiles/main.dir/priceAnomaly.cpp.o"
+  "CMakeFiles/main.dir/priceAnomaly.cpp.o.d"
+  "CMakeFiles/main.dir/volumeAnomaly.cpp.o"
+  "CMakeFiles/main.dir/volumeAnomaly.cpp.o.d"
   "main"
   "main.pdb"
 )

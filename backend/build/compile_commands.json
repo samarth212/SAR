@@ -1,20 +1,32 @@
 [
 {
   "directory": "/Users/samarth/Desktop/SAR/backend/build",
-  "command": "/usr/bin/c++  -isystem /opt/homebrew/include -std=gnu++20 -arch arm64 -o CMakeFiles/main.dir/main.cpp.o -c /Users/samarth/Desktop/SAR/backend/main.cpp",
+  "command": "/usr/bin/c++  -isystem /opt/homebrew/include -std=gnu++20 -o CMakeFiles/main.dir/main.cpp.o -c /Users/samarth/Desktop/SAR/backend/main.cpp",
   "file": "/Users/samarth/Desktop/SAR/backend/main.cpp",
   "output": "CMakeFiles/main.dir/main.cpp.o"
 },
 {
   "directory": "/Users/samarth/Desktop/SAR/backend/build",
-  "command": "/usr/bin/c++  -isystem /opt/homebrew/include -std=gnu++20 -arch arm64 -o CMakeFiles/main.dir/data_parser.cpp.o -c /Users/samarth/Desktop/SAR/backend/data_parser.cpp",
+  "command": "/usr/bin/c++  -isystem /opt/homebrew/include -std=gnu++20 -o CMakeFiles/main.dir/data_parser.cpp.o -c /Users/samarth/Desktop/SAR/backend/data_parser.cpp",
   "file": "/Users/samarth/Desktop/SAR/backend/data_parser.cpp",
   "output": "CMakeFiles/main.dir/data_parser.cpp.o"
 },
 {
   "directory": "/Users/samarth/Desktop/SAR/backend/build",
-  "command": "/usr/bin/c++  -isystem /opt/homebrew/include -std=gnu++20 -arch arm64 -o CMakeFiles/main.dir/anomaly_detector.cpp.o -c /Users/samarth/Desktop/SAR/backend/anomaly_detector.cpp",
+  "command": "/usr/bin/c++  -isystem /opt/homebrew/include -std=gnu++20 -o CMakeFiles/main.dir/anomaly_detector.cpp.o -c /Users/samarth/Desktop/SAR/backend/anomaly_detector.cpp",
   "file": "/Users/samarth/Desktop/SAR/backend/anomaly_detector.cpp",
   "output": "CMakeFiles/main.dir/anomaly_detector.cpp.o"
+},
+{
+  "directory": "/Users/samarth/Desktop/SAR/backend/build",
+  "command": "/usr/bin/c++  -isystem /opt/homebrew/include -std=gnu++20 -o CMakeFiles/main.dir/priceAnomaly.cpp.o -c /Users/samarth/Desktop/SAR/backend/priceAnomaly.cpp",
+  "file": "/Users/samarth/Desktop/SAR/backend/priceAnomaly.cpp",
+  "output": "CMakeFiles/main.dir/priceAnomaly.cpp.o"
+},
+{
+  "directory": "/Users/samarth/Desktop/SAR/backend/build",
+  "command": "/usr/bin/c++  -isystem /opt/homebrew/include -std=gnu++20 -o CMakeFiles/main.dir/volumeAnomaly.cpp.o -c /Users/samarth/Desktop/SAR/backend/volumeAnomaly.cpp",
+  "file": "/Users/samarth/Desktop/SAR/backend/volumeAnomaly.cpp",
+  "output": "CMakeFiles/main.dir/volumeAnomaly.cpp.o"
 }
 ]

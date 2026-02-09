@@ -12,5 +12,7 @@ add_executable(main
     main.cpp
     data_parser.cpp
     anomaly_detector.cpp
+    priceAnomaly.cpp
+    volumeAnomaly.cpp
 )
 target_link_libraries(main PRIVATE Boost::boost OpenSSL::SSL OpenSSL::Crypto)
