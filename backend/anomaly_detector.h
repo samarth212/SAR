@@ -89,3 +89,5 @@ std::int64_t averageVolumeOfRecentTrades(const std::string& symbol, const std::u
 std::optional<Anomaly> detectPriceAnomaly(const std::string& symbol, const std::unordered_map<std::string, SymbolState>& bySymbol, double k);
 
 std::optional<Anomaly> detectVolumeAnomaly(const std::string& symbol, const std::unordered_map<std::string, SymbolState>& bySymbol, double k);
+
+std::optional<Anomaly> detectSpreadAnomaly(const std::string& symbol, const std::unordered_map<std::string, SymbolState>& bySymbol, double k);
