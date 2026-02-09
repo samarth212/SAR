@@ -1,3 +1,6 @@
 /Users/samarth/Desktop/SAR/backend/build/CMakeFiles/main.dir
 /Users/samarth/Desktop/SAR/backend/build/CMakeFiles/edit_cache.dir
 /Users/samarth/Desktop/SAR/backend/build/CMakeFiles/rebuild_cache.dir
+/Users/samarth/Desktop/SAR/backend/build/anomalies/CMakeFiles/anomalies.dir
+/Users/samarth/Desktop/SAR/backend/build/anomalies/CMakeFiles/edit_cache.dir
+/Users/samarth/Desktop/SAR/backend/build/anomalies/CMakeFiles/rebuild_cache.dir

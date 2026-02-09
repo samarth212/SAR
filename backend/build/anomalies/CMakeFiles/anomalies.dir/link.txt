@@ -1,0 +1,2 @@
+/usr/bin/ar qc libanomalies.a CMakeFiles/anomalies.dir/priceAnomaly.cpp.o CMakeFiles/anomalies.dir/volumeAnomaly.cpp.o CMakeFiles/anomalies.dir/spreadAnomaly.cpp.o
+/usr/bin/ranlib libanomalies.a

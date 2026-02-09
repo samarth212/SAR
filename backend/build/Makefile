@@ -129,29 +129,18 @@ main/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/build
 .PHONY : main/fast
 
-anomaly_detector.o: anomaly_detector.cpp.o
-.PHONY : anomaly_detector.o
+#=============================================================================
+# Target rules for targets named anomalies
 
-# target to build an object file
-anomaly_detector.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/anomaly_detector.cpp.o
-.PHONY : anomaly_detector.cpp.o
+# Build rule for target.
+anomalies: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 anomalies
+.PHONY : anomalies
 
-anomaly_detector.i: anomaly_detector.cpp.i
-.PHONY : anomaly_detector.i
-
-# target to preprocess a source file
-anomaly_detector.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/anomaly_detector.cpp.i
-.PHONY : anomaly_detector.cpp.i
-
-anomaly_detector.s: anomaly_detector.cpp.s
-.PHONY : anomaly_detector.s
-
-# target to generate assembly for a file
-anomaly_detector.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/anomaly_detector.cpp.s
-.PHONY : anomaly_detector.cpp.s
+# fast build rule for target.
+anomalies/fast:
+	$(MAKE) $(MAKESILENT) -f anomalies/CMakeFiles/anomalies.dir/build.make anomalies/CMakeFiles/anomalies.dir/build
+.PHONY : anomalies/fast
 
 data_parser.o: data_parser.cpp.o
 .PHONY : data_parser.o
@@ -201,54 +190,6 @@ main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/main.cpp.s
 .PHONY : main.cpp.s
 
-priceAnomaly.o: priceAnomaly.cpp.o
-.PHONY : priceAnomaly.o
-
-# target to build an object file
-priceAnomaly.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/priceAnomaly.cpp.o
-.PHONY : priceAnomaly.cpp.o
-
-priceAnomaly.i: priceAnomaly.cpp.i
-.PHONY : priceAnomaly.i
-
-# target to preprocess a source file
-priceAnomaly.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/priceAnomaly.cpp.i
-.PHONY : priceAnomaly.cpp.i
-
-priceAnomaly.s: priceAnomaly.cpp.s
-.PHONY : priceAnomaly.s
-
-# target to generate assembly for a file
-priceAnomaly.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/priceAnomaly.cpp.s
-.PHONY : priceAnomaly.cpp.s
-
-volumeAnomaly.o: volumeAnomaly.cpp.o
-.PHONY : volumeAnomaly.o
-
-# target to build an object file
-volumeAnomaly.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/volumeAnomaly.cpp.o
-.PHONY : volumeAnomaly.cpp.o
-
-volumeAnomaly.i: volumeAnomaly.cpp.i
-.PHONY : volumeAnomaly.i
-
-# target to preprocess a source file
-volumeAnomaly.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/volumeAnomaly.cpp.i
-.PHONY : volumeAnomaly.cpp.i
-
-volumeAnomaly.s: volumeAnomaly.cpp.s
-.PHONY : volumeAnomaly.s
-
-# target to generate assembly for a file
-volumeAnomaly.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/volumeAnomaly.cpp.s
-.PHONY : volumeAnomaly.cpp.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -257,22 +198,14 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... anomalies"
 	@echo "... main"
-	@echo "... anomaly_detector.o"
-	@echo "... anomaly_detector.i"
-	@echo "... anomaly_detector.s"
 	@echo "... data_parser.o"
 	@echo "... data_parser.i"
 	@echo "... data_parser.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
-	@echo "... priceAnomaly.o"
-	@echo "... priceAnomaly.i"
-	@echo "... priceAnomaly.s"
-	@echo "... volumeAnomaly.o"
-	@echo "... volumeAnomaly.i"
-	@echo "... volumeAnomaly.s"
 .PHONY : help
 
 

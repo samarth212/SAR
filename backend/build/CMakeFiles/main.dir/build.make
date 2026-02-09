@@ -100,69 +100,22 @@ CMakeFiles/main.dir/data_parser.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/data_parser.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/samarth/Desktop/SAR/backend/data_parser.cpp -o CMakeFiles/main.dir/data_parser.cpp.s
 
-CMakeFiles/main.dir/anomaly_detector.cpp.o: CMakeFiles/main.dir/flags.make
-CMakeFiles/main.dir/anomaly_detector.cpp.o: /Users/samarth/Desktop/SAR/backend/anomaly_detector.cpp
-CMakeFiles/main.dir/anomaly_detector.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/samarth/Desktop/SAR/backend/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/main.dir/anomaly_detector.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/anomaly_detector.cpp.o -MF CMakeFiles/main.dir/anomaly_detector.cpp.o.d -o CMakeFiles/main.dir/anomaly_detector.cpp.o -c /Users/samarth/Desktop/SAR/backend/anomaly_detector.cpp
-
-CMakeFiles/main.dir/anomaly_detector.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/anomaly_detector.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/samarth/Desktop/SAR/backend/anomaly_detector.cpp > CMakeFiles/main.dir/anomaly_detector.cpp.i
-
-CMakeFiles/main.dir/anomaly_detector.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/anomaly_detector.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/samarth/Desktop/SAR/backend/anomaly_detector.cpp -o CMakeFiles/main.dir/anomaly_detector.cpp.s
-
-CMakeFiles/main.dir/priceAnomaly.cpp.o: CMakeFiles/main.dir/flags.make
-CMakeFiles/main.dir/priceAnomaly.cpp.o: /Users/samarth/Desktop/SAR/backend/priceAnomaly.cpp
-CMakeFiles/main.dir/priceAnomaly.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/samarth/Desktop/SAR/backend/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/main.dir/priceAnomaly.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/priceAnomaly.cpp.o -MF CMakeFiles/main.dir/priceAnomaly.cpp.o.d -o CMakeFiles/main.dir/priceAnomaly.cpp.o -c /Users/samarth/Desktop/SAR/backend/priceAnomaly.cpp
-
-CMakeFiles/main.dir/priceAnomaly.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/priceAnomaly.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/samarth/Desktop/SAR/backend/priceAnomaly.cpp > CMakeFiles/main.dir/priceAnomaly.cpp.i
-
-CMakeFiles/main.dir/priceAnomaly.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/priceAnomaly.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/samarth/Desktop/SAR/backend/priceAnomaly.cpp -o CMakeFiles/main.dir/priceAnomaly.cpp.s
-
-CMakeFiles/main.dir/volumeAnomaly.cpp.o: CMakeFiles/main.dir/flags.make
-CMakeFiles/main.dir/volumeAnomaly.cpp.o: /Users/samarth/Desktop/SAR/backend/volumeAnomaly.cpp
-CMakeFiles/main.dir/volumeAnomaly.cpp.o: CMakeFiles/main.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/samarth/Desktop/SAR/backend/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/main.dir/volumeAnomaly.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/main.dir/volumeAnomaly.cpp.o -MF CMakeFiles/main.dir/volumeAnomaly.cpp.o.d -o CMakeFiles/main.dir/volumeAnomaly.cpp.o -c /Users/samarth/Desktop/SAR/backend/volumeAnomaly.cpp
-
-CMakeFiles/main.dir/volumeAnomaly.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/main.dir/volumeAnomaly.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/samarth/Desktop/SAR/backend/volumeAnomaly.cpp > CMakeFiles/main.dir/volumeAnomaly.cpp.i
-
-CMakeFiles/main.dir/volumeAnomaly.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/main.dir/volumeAnomaly.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/samarth/Desktop/SAR/backend/volumeAnomaly.cpp -o CMakeFiles/main.dir/volumeAnomaly.cpp.s
-
 # Object files for target main
 main_OBJECTS = \
 "CMakeFiles/main.dir/main.cpp.o" \
-"CMakeFiles/main.dir/data_parser.cpp.o" \
-"CMakeFiles/main.dir/anomaly_detector.cpp.o" \
-"CMakeFiles/main.dir/priceAnomaly.cpp.o" \
-"CMakeFiles/main.dir/volumeAnomaly.cpp.o"
+"CMakeFiles/main.dir/data_parser.cpp.o"
 
 # External object files for target main
 main_EXTERNAL_OBJECTS =
 
 main: CMakeFiles/main.dir/main.cpp.o
 main: CMakeFiles/main.dir/data_parser.cpp.o
-main: CMakeFiles/main.dir/anomaly_detector.cpp.o
-main: CMakeFiles/main.dir/priceAnomaly.cpp.o
-main: CMakeFiles/main.dir/volumeAnomaly.cpp.o
 main: CMakeFiles/main.dir/build.make
+main: anomalies/libanomalies.a
 main: /opt/homebrew/lib/libssl.dylib
 main: /opt/homebrew/lib/libcrypto.dylib
 main: CMakeFiles/main.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/samarth/Desktop/SAR/backend/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/samarth/Desktop/SAR/backend/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable main"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/main.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

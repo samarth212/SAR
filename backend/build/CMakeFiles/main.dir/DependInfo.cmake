@@ -8,11 +8,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/Users/samarth/Desktop/SAR/backend/anomaly_detector.cpp" "CMakeFiles/main.dir/anomaly_detector.cpp.o" "gcc" "CMakeFiles/main.dir/anomaly_detector.cpp.o.d"
   "/Users/samarth/Desktop/SAR/backend/data_parser.cpp" "CMakeFiles/main.dir/data_parser.cpp.o" "gcc" "CMakeFiles/main.dir/data_parser.cpp.o.d"
   "/Users/samarth/Desktop/SAR/backend/main.cpp" "CMakeFiles/main.dir/main.cpp.o" "gcc" "CMakeFiles/main.dir/main.cpp.o.d"
-  "/Users/samarth/Desktop/SAR/backend/priceAnomaly.cpp" "CMakeFiles/main.dir/priceAnomaly.cpp.o" "gcc" "CMakeFiles/main.dir/priceAnomaly.cpp.o.d"
-  "/Users/samarth/Desktop/SAR/backend/volumeAnomaly.cpp" "CMakeFiles/main.dir/volumeAnomaly.cpp.o" "gcc" "CMakeFiles/main.dir/volumeAnomaly.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.
