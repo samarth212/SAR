@@ -1,78 +1,86 @@
 #include "data_parser.h"
 #include <iostream>
 
-
 // keep only last N points so memory stays bounded
-static void push_bounded(std::deque<double>& dq, double x, std::size_t maxN) {
+static void push_bounded(std::deque<double> &dq, double x, std::size_t maxN) {
     dq.push_back(x);
-    if (dq.size() > maxN) dq.pop_front();
+    if (dq.size() > maxN)
+        dq.pop_front();
 }
-static void push_bounded(std::deque<std::int64_t>& dq, std::int64_t x, std::size_t maxN) {
+static void push_bounded(std::deque<std::int64_t> &dq, std::int64_t x, std::size_t maxN) {
     dq.push_back(x);
-    if (dq.size() > maxN) dq.pop_front();
+    if (dq.size() > maxN)
+        dq.pop_front();
 }
 
 // updates the map using parsed events
-void updateState(std::unordered_map<std::string, SymbolState>& bySymbol,
-                        const std::vector<MarketEvent>& events,
-                        std::size_t windowN) {
-    for (const auto& ev : events) {
-        auto& state = bySymbol[ev.symbol];
+void updateState(std::unordered_map<std::string, SymbolState> &bySymbol,
+                 const std::vector<MarketEvent> &events, std::size_t windowN) {
+    for (const auto &ev : events) {
+        auto &state = bySymbol[ev.symbol];
 
         if (ev.type == MarketEventType::Quote) {
-            const Quote& q = std::get<Quote>(ev.data);
+            const Quote &q = std::get<Quote>(ev.data);
             state.lastQuote = q;
             state.lastQuoteTs = ev.timestamp;
 
             double mid = q.mid_price();
             double spr = q.spread();
-            if (mid > 0.0) push_bounded(state.prices, mid, windowN);
-            if (spr > 0.0) push_bounded(state.spreads, spr, windowN);
-        }
-        else if (ev.type == MarketEventType::Trade) {
-            const Trade& tr = std::get<Trade>(ev.data);
+            if (mid > 0.0)
+                push_bounded(state.prices, mid, windowN);
+            if (spr > 0.0)
+                push_bounded(state.spreads, spr, windowN);
+        } else if (ev.type == MarketEventType::Trade) {
+            const Trade &tr = std::get<Trade>(ev.data);
             state.lastTrade = tr;
             state.lastTradeTs = ev.timestamp;
 
-            if (tr.price > 0.0) push_bounded(state.prices, tr.price, windowN);
-            if (tr.size > 0)    push_bounded(state.tradeSizes, tr.size, windowN);
-            
-        }
-        else if (ev.type == MarketEventType::Bar) {
-            const Bar& b = std::get<Bar>(ev.data);
+            if (tr.price > 0.0)
+                push_bounded(state.prices, tr.price, windowN);
+            if (tr.size > 0)
+                push_bounded(state.tradeSizes, tr.size, windowN);
+
+        } else if (ev.type == MarketEventType::Bar) {
+            const Bar &b = std::get<Bar>(ev.data);
             state.lastBar = b;
             state.lastBarTs = ev.timestamp;
 
-
-            if (b.close > 0.0)  push_bounded(state.prices, b.close, windowN);
-            if (b.volume > 0)   push_bounded(state.barVolumes, b.volume, windowN);
+            if (b.close > 0.0)
+                push_bounded(state.prices, b.close, windowN);
+            if (b.volume > 0)
+                push_bounded(state.barVolumes, b.volume, windowN);
         }
     }
 }
 
-std::vector<MarketEvent> parseMessage(const std::string& jsonText){
+std::vector<MarketEvent> parseMessage(const std::string &jsonText) {
 
     std::vector<MarketEvent> results;
 
     json parsedOutput = json::parse(jsonText, nullptr, false);
-    if (parsedOutput.is_discarded()) return results;
+    if (parsedOutput.is_discarded())
+        return results;
 
-    auto handle_datatype = [&](const json& msg){
-        if (!msg.is_object()) return;
+    auto handle_datatype = [&](const json &msg) {
+        if (!msg.is_object())
+            return;
 
         const std::string T = msg.value("T", "");
-        if (T.empty()) return;
+        if (T.empty())
+            return;
 
-        if (T == "success" || T == "subscription") return;
+        if (T == "success" || T == "subscription")
+            return;
 
         MarketEvent ev;
         ev.symbol = msg.value("S", "");
         ev.timestamp = msg.value("t", "");
         ev.ts_ns = 0;
-        if (ev.symbol.empty()) return;
+        if (ev.symbol.empty())
+            return;
 
         // build quote
-        if (T == "q"){  
+        if (T == "q") {
 
             Quote q;
 
@@ -98,7 +106,7 @@ std::vector<MarketEvent> parseMessage(const std::string& jsonText){
             Trade tr;
 
             tr.price = msg.value("p", 0.0);
-            tr.size  = msg.value("s", (std::int64_t)0);
+            tr.size = msg.value("s", (std::int64_t)0);
             tr.exchange = msg.value("x", "");
             tr.conditions = msg.value("c", std::vector<std::string>{});
             tr.tape = msg.value("z", "");
@@ -132,28 +140,16 @@ std::vector<MarketEvent> parseMessage(const std::string& jsonText){
             results.push_back(std::move(ev));
 
             return;
-
         }
-
-   
     };
 
     if (parsedOutput.is_array()) {
-        for (const auto& msg : parsedOutput){
+        for (const auto &msg : parsedOutput) {
             handle_datatype(msg);
-        } 
+        }
+    } else {
+        handle_datatype(parsedOutput);
     }
-    else{
-            handle_datatype(parsedOutput);
-    }
-    
 
     return results;
-
 }
-
-    
-
-
-
-

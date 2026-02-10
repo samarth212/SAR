@@ -1,10 +1,10 @@
-#include <boost/beast/core.hpp>
-#include <boost/beast/websocket.hpp>
-#include <boost/beast/ssl.hpp>
 #include <boost/asio/connect.hpp>
 #include <boost/asio/ip/tcp.hpp>
 #include <boost/asio/ssl/error.hpp>
 #include <boost/asio/ssl/stream.hpp>
+#include <boost/beast/core.hpp>
+#include <boost/beast/ssl.hpp>
+#include <boost/beast/websocket.hpp>
 
 #include <cstdlib>
 #include <iostream>
@@ -16,30 +16,29 @@ namespace net = boost::asio;
 namespace ssl = net::ssl;
 using tcp = net::ip::tcp;
 
-
 // helper method to handle env vars
-static std::string getenv_or_throw(const char* name) {
-    const char* v = std::getenv(name);
-    if (!v || !*v) throw std::runtime_error(std::string("Missing env var: ") + name);
+static std::string getenv_or_throw(const char *name) {
+    const char *v = std::getenv(name);
+    if (!v || !*v)
+        throw std::runtime_error(std::string("Missing env var: ") + name);
     return std::string(v);
 }
 
 int main() {
-    try{
+    try {
 
         const std::string key = getenv_or_throw("APCA_API_KEY_ID");
         const std::string secret = getenv_or_throw("APCA_API_SECRET_KEY");
 
         // test stream
-        const std::string host   = "stream.data.alpaca.markets"; // alpaca server we are connecting to
-        const std::string port   = "443"; // the secure port used for encrypted connections
+        const std::string host = "stream.data.alpaca.markets"; // alpaca server we are connecting to
+        const std::string port = "443"; // the secure port used for encrypted connections
         const std::string target = "/v2/test";
 
         // object that runs all network work for this program
         net::io_context ioc;
         // object holds the rules for making a secure connection as a client
         ssl::context ctx{ssl::context::tls_client};
-
 
         // This tells the program to trust the normal certificate list on the computer
         ctx.set_default_verify_paths();
@@ -52,18 +51,17 @@ int main() {
 
         // This object helps find the server address to connect to
         tcp::resolver resolver{ioc};
-        auto const results = resolver.resolve(host, port); // find the server address which matches the host and port
-        
+        auto const results =
+            resolver.resolve(host, port); // find the server address which matches the host and port
+
         // connect TCP first so the SSL handshake has a valid socket
         net::connect(ws.next_layer().next_layer(), results.begin(), results.end());
 
         // This sets the server name so the secure connection is made to the right site.
         if (!SSL_set_tlsext_host_name(ws.next_layer().native_handle(), host.c_str())) {
             // This builds an error code if setting the server name fails.
-            beast::error_code ec{
-                static_cast<int>(::ERR_get_error()),
-                net::error::get_ssl_category()
-            };
+            beast::error_code ec{static_cast<int>(::ERR_get_error()),
+                                 net::error::get_ssl_category()};
             // This stops with a readable error.
             throw beast::system_error{ec};
         }
@@ -88,8 +86,7 @@ int main() {
 
         // logs in over the WebSocket using the key and secret
         std::string auth_msg =
-            std::string(R"({"action":"auth","key":")") + key +
-            R"(","secret":")" + secret + R"("})";
+            std::string(R"({"action":"auth","key":")") + key + R"(","secret":")" + secret + R"("})";
         // sends the login message to Alpaca
         ws.write(net::buffer(auth_msg));
 
@@ -114,17 +111,15 @@ int main() {
 
         // keep reading updates forever
 
-        for(;;){
+        for (;;) {
             // read next message from the stream
             ws.read(buffer);
 
             std::cout << beast::make_printable(buffer.data()) << "\n";
 
             buffer.consume(buffer.size());
-
         }
-    }
-    catch(const std::exception& e){
+    } catch (const std::exception &e) {
         std::cerr << "Error: " << e.what() << "\n";
         return 1;
     }
