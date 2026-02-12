@@ -1,2 +1,6 @@
 /backend/.env
 .vscode
+.prettierignore
+.prettierrc
+.editorconfig
+.clang-format

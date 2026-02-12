@@ -1,31 +1,31 @@
 [
 {
   "directory": "/Users/samarth/Desktop/SAR/backend/build",
-  "command": "/usr/bin/c++  -I/Users/samarth/Desktop/SAR/backend/anomalies/.. -isystem /opt/homebrew/include -std=gnu++20 -o CMakeFiles/main.dir/main.cpp.o -c /Users/samarth/Desktop/SAR/backend/main.cpp",
+  "command": "/usr/bin/c++  -I/Users/samarth/Desktop/SAR/backend/anomalies/.. -isystem /opt/homebrew/include -std=gnu++20 -arch arm64 -o CMakeFiles/main.dir/main.cpp.o -c /Users/samarth/Desktop/SAR/backend/main.cpp",
   "file": "/Users/samarth/Desktop/SAR/backend/main.cpp",
   "output": "CMakeFiles/main.dir/main.cpp.o"
 },
 {
   "directory": "/Users/samarth/Desktop/SAR/backend/build",
-  "command": "/usr/bin/c++  -I/Users/samarth/Desktop/SAR/backend/anomalies/.. -isystem /opt/homebrew/include -std=gnu++20 -o CMakeFiles/main.dir/data_parser.cpp.o -c /Users/samarth/Desktop/SAR/backend/data_parser.cpp",
+  "command": "/usr/bin/c++  -I/Users/samarth/Desktop/SAR/backend/anomalies/.. -isystem /opt/homebrew/include -std=gnu++20 -arch arm64 -o CMakeFiles/main.dir/data_parser.cpp.o -c /Users/samarth/Desktop/SAR/backend/data_parser.cpp",
   "file": "/Users/samarth/Desktop/SAR/backend/data_parser.cpp",
   "output": "CMakeFiles/main.dir/data_parser.cpp.o"
 },
 {
   "directory": "/Users/samarth/Desktop/SAR/backend/build/anomalies",
-  "command": "/usr/bin/c++  -I/Users/samarth/Desktop/SAR/backend/anomalies/.. -isystem /opt/homebrew/include -std=gnu++20 -o CMakeFiles/anomalies.dir/priceAnomaly.cpp.o -c /Users/samarth/Desktop/SAR/backend/anomalies/priceAnomaly.cpp",
+  "command": "/usr/bin/c++  -I/Users/samarth/Desktop/SAR/backend/anomalies/.. -isystem /opt/homebrew/include -std=gnu++20 -arch arm64 -o CMakeFiles/anomalies.dir/priceAnomaly.cpp.o -c /Users/samarth/Desktop/SAR/backend/anomalies/priceAnomaly.cpp",
   "file": "/Users/samarth/Desktop/SAR/backend/anomalies/priceAnomaly.cpp",
   "output": "anomalies/CMakeFiles/anomalies.dir/priceAnomaly.cpp.o"
 },
 {
   "directory": "/Users/samarth/Desktop/SAR/backend/build/anomalies",
-  "command": "/usr/bin/c++  -I/Users/samarth/Desktop/SAR/backend/anomalies/.. -isystem /opt/homebrew/include -std=gnu++20 -o CMakeFiles/anomalies.dir/volumeAnomaly.cpp.o -c /Users/samarth/Desktop/SAR/backend/anomalies/volumeAnomaly.cpp",
+  "command": "/usr/bin/c++  -I/Users/samarth/Desktop/SAR/backend/anomalies/.. -isystem /opt/homebrew/include -std=gnu++20 -arch arm64 -o CMakeFiles/anomalies.dir/volumeAnomaly.cpp.o -c /Users/samarth/Desktop/SAR/backend/anomalies/volumeAnomaly.cpp",
   "file": "/Users/samarth/Desktop/SAR/backend/anomalies/volumeAnomaly.cpp",
   "output": "anomalies/CMakeFiles/anomalies.dir/volumeAnomaly.cpp.o"
 },
 {
   "directory": "/Users/samarth/Desktop/SAR/backend/build/anomalies",
-  "command": "/usr/bin/c++  -I/Users/samarth/Desktop/SAR/backend/anomalies/.. -isystem /opt/homebrew/include -std=gnu++20 -o CMakeFiles/anomalies.dir/spreadAnomaly.cpp.o -c /Users/samarth/Desktop/SAR/backend/anomalies/spreadAnomaly.cpp",
+  "command": "/usr/bin/c++  -I/Users/samarth/Desktop/SAR/backend/anomalies/.. -isystem /opt/homebrew/include -std=gnu++20 -arch arm64 -o CMakeFiles/anomalies.dir/spreadAnomaly.cpp.o -c /Users/samarth/Desktop/SAR/backend/anomalies/spreadAnomaly.cpp",
   "file": "/Users/samarth/Desktop/SAR/backend/anomalies/spreadAnomaly.cpp",
   "output": "anomalies/CMakeFiles/anomalies.dir/spreadAnomaly.cpp.o"
 }
