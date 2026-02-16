@@ -14,6 +14,7 @@ add_subdirectory(anomalies)
 add_executable(main
     main.cpp
     data_parser.cpp
+    api.cpp
 )
 target_link_libraries(main PRIVATE anomalies Boost::boost OpenSSL::SSL OpenSSL::Crypto)
 target_link_libraries(main PRIVATE nlohmann_json::nlohmann_json)
