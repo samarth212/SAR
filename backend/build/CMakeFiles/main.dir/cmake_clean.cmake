@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/main.dir/api.cpp.o"
+  "CMakeFiles/main.dir/api.cpp.o.d"
   "CMakeFiles/main.dir/data_parser.cpp.o"
   "CMakeFiles/main.dir/data_parser.cpp.o.d"
   "CMakeFiles/main.dir/main.cpp.o"

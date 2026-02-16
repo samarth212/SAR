@@ -142,6 +142,30 @@ anomalies/fast:
 	$(MAKE) $(MAKESILENT) -f anomalies/CMakeFiles/anomalies.dir/build.make anomalies/CMakeFiles/anomalies.dir/build
 .PHONY : anomalies/fast
 
+api.o: api.cpp.o
+.PHONY : api.o
+
+# target to build an object file
+api.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/api.cpp.o
+.PHONY : api.cpp.o
+
+api.i: api.cpp.i
+.PHONY : api.i
+
+# target to preprocess a source file
+api.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/api.cpp.i
+.PHONY : api.cpp.i
+
+api.s: api.cpp.s
+.PHONY : api.s
+
+# target to generate assembly for a file
+api.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/api.cpp.s
+.PHONY : api.cpp.s
+
 data_parser.o: data_parser.cpp.o
 .PHONY : data_parser.o
 
@@ -200,6 +224,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... anomalies"
 	@echo "... main"
+	@echo "... api.o"
+	@echo "... api.i"
+	@echo "... api.s"
 	@echo "... data_parser.o"
 	@echo "... data_parser.i"
 	@echo "... data_parser.s"

@@ -52,8 +52,8 @@ handle_request(const http::request<http::string_body> &req) {
         json out = json::array();
         {
             std::lock_guard<std::mutex> lock(stateMutex); // acquire lock
-            for (auto const &kv : bySymbol)
-                out.push_back(kv.first);
+            for (auto const &pair : bySymbol)
+                out.push_back(pair.first);
         }
         return make_json(http::status::ok, out);
     }

@@ -14,6 +14,7 @@
 
 #include "anomaly_detector.h"
 #include "data_parser.h"
+#include <mutex>
 
 namespace beast = boost::beast;
 namespace websocket = beast::websocket;
@@ -22,6 +23,7 @@ namespace ssl = net::ssl;
 using tcp = net::ip::tcp;
 
 std::unordered_map<std::string, SymbolState> bySymbol;
+std::mutex stateMutex;
 
 // helper method to handle env vars
 static std::string getenv_or_throw(const char *name) {
@@ -128,22 +130,26 @@ int main() {
             buffer.consume(buffer.size());
 
             auto events = parseMessage(message);
-            updateState(bySymbol, events);
 
-            std::unordered_set<std::string> changed;
-            changed.reserve(events.size());
-            for (const auto &ev : events)
-                changed.insert(ev.symbol);
+            {
+                std::lock_guard<std::mutex> lock(stateMutex);
+                updateState(bySymbol, events);
 
-            for (const auto &symbol : changed) {
-                if (auto a = detectPriceAnomaly(symbol, bySymbol, 2.0)) {
-                    std::cout << a->note << "\n";
-                }
-                if (auto a = detectSpreadAnomaly(symbol, bySymbol, 2.0)) {
-                    std::cout << a->note << "\n";
-                }
-                if (auto a = detectVolumeAnomaly(symbol, bySymbol, 2.0)) {
-                    std::cout << a->note << "\n";
+                std::unordered_set<std::string> changed;
+                changed.reserve(events.size());
+                for (const auto &ev : events)
+                    changed.insert(ev.symbol);
+
+                for (const auto &symbol : changed) {
+                    if (auto a = detectPriceAnomaly(symbol, bySymbol, 2.0)) {
+                        std::cout << a->note << "\n";
+                    }
+                    if (auto a = detectSpreadAnomaly(symbol, bySymbol, 2.0)) {
+                        std::cout << a->note << "\n";
+                    }
+                    if (auto a = detectVolumeAnomaly(symbol, bySymbol, 2.0)) {
+                        std::cout << a->note << "\n";
+                    }
                 }
             }
         }
