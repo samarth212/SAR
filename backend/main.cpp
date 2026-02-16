@@ -135,7 +135,7 @@ int main() {
             for (const auto &ev : events)
                 changed.insert(ev.symbol);
 
-                        for (const auto &symbol : changed) {
+            for (const auto &symbol : changed) {
                 if (auto a = detectPriceAnomaly(symbol, bySymbol, 2.0)) {
                     std::cout << a->note << "\n";
                 }
