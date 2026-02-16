@@ -10,6 +10,7 @@
 #include <iostream>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 
 #include "anomaly_detector.h"
 #include "data_parser.h"
@@ -129,17 +130,20 @@ int main() {
             auto events = parseMessage(message);
             updateState(bySymbol, events);
 
-            for (const auto &pair : bySymbol) {
-                const std::string symbol = pair.first;
-                const auto &state = pair.second;
+            std::unordered_set<std::string> changed;
+            changed.reserve(events.size());
+            for (const auto &ev : events)
+                changed.insert(ev.symbol);
 
-                // test -> later do aggregate anomaly?
-                std::optional<Anomaly> priceAnomaly = detectPriceAnomaly(symbol, bySymbol, 2.0);
-                if (priceAnomaly != std::nullopt) {
-                    std::cout << "Price anomaly detected!!";
-                    std::cout << priceAnomaly->note;
-                } else {
-                    std::cout << "All good!";
+                        for (const auto &symbol : changed) {
+                if (auto a = detectPriceAnomaly(symbol, bySymbol, 2.0)) {
+                    std::cout << a->note << "\n";
+                }
+                if (auto a = detectSpreadAnomaly(symbol, bySymbol, 2.0)) {
+                    std::cout << a->note << "\n";
+                }
+                if (auto a = detectVolumeAnomaly(symbol, bySymbol, 2.0)) {
+                    std::cout << a->note << "\n";
                 }
             }
         }
