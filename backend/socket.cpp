@@ -1,20 +1,4 @@
-#include <boost/asio/connect.hpp>
-#include <boost/asio/ip/tcp.hpp>
-#include <boost/asio/ssl/error.hpp>
-#include <boost/asio/ssl/stream.hpp>
-#include <boost/beast/core.hpp>
-#include <boost/beast/ssl.hpp>
-#include <boost/beast/websocket.hpp>
-
-#include <cstdlib>
-#include <iostream>
-#include <string>
-#include <unordered_map>
-#include <unordered_set>
-
-#include "anomaly_detector.h"
-#include "data_parser.h"
-#include <mutex>
+#include socket.h
 
 namespace beast = boost::beast;
 namespace websocket = beast::websocket;
@@ -33,7 +17,7 @@ static std::string getenv_or_throw(const char *name) {
     return std::string(v);
 }
 
-int main() {
+int run_socket() {
     try {
 
         const std::string key = getenv_or_throw("APCA_API_KEY_ID");

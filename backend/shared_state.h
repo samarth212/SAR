@@ -4,6 +4,8 @@
 #include <string>
 #include <unordered_map>
 
+struct SymbolState;
+
 #include "anomaly_detector.h"
 #include "data_parser.h"
 
