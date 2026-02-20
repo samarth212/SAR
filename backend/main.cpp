@@ -11,3 +11,12 @@
 std::unordered_map<std::string, SymbolState> bySymbol;
 std::deque<Anomaly> recentAnomalies;
 std::mutex stateMutex;
+
+int main() {
+    std::thread apiThread([] { run_http_server(8080); });
+    apiThread.detach();
+
+    run_socket();
+
+    return 0;
+}
