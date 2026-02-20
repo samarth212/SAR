@@ -14,6 +14,7 @@
 
 #include "anomaly_detector.h"
 #include "data_parser.h"
+#include "shared_state.h"
 #include <mutex>
 
 int run_socket();

@@ -5,6 +5,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/main.dir/data_parser.cpp.o.d"
   "CMakeFiles/main.dir/main.cpp.o"
   "CMakeFiles/main.dir/main.cpp.o.d"
+  "CMakeFiles/main.dir/socket.cpp.o"
+  "CMakeFiles/main.dir/socket.cpp.o.d"
   "main"
   "main.pdb"
 )

@@ -214,6 +214,30 @@ main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+socket.o: socket.cpp.o
+.PHONY : socket.o
+
+# target to build an object file
+socket.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/socket.cpp.o
+.PHONY : socket.cpp.o
+
+socket.i: socket.cpp.i
+.PHONY : socket.i
+
+# target to preprocess a source file
+socket.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/socket.cpp.i
+.PHONY : socket.cpp.i
+
+socket.s: socket.cpp.s
+.PHONY : socket.s
+
+# target to generate assembly for a file
+socket.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/socket.cpp.s
+.PHONY : socket.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -233,6 +257,9 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... socket.o"
+	@echo "... socket.i"
+	@echo "... socket.s"
 .PHONY : help
 
 

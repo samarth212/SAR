@@ -11,6 +11,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/Users/samarth/Desktop/SAR/backend/api.cpp" "CMakeFiles/main.dir/api.cpp.o" "gcc" "CMakeFiles/main.dir/api.cpp.o.d"
   "/Users/samarth/Desktop/SAR/backend/data_parser.cpp" "CMakeFiles/main.dir/data_parser.cpp.o" "gcc" "CMakeFiles/main.dir/data_parser.cpp.o.d"
   "/Users/samarth/Desktop/SAR/backend/main.cpp" "CMakeFiles/main.dir/main.cpp.o" "gcc" "CMakeFiles/main.dir/main.cpp.o.d"
+  "/Users/samarth/Desktop/SAR/backend/socket.cpp" "CMakeFiles/main.dir/socket.cpp.o" "gcc" "CMakeFiles/main.dir/socket.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

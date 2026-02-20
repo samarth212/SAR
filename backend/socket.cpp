@@ -6,9 +6,6 @@ namespace net = boost::asio;
 namespace ssl = net::ssl;
 using tcp = net::ip::tcp;
 
-std::unordered_map<std::string, SymbolState> bySymbol;
-std::mutex stateMutex;
-
 // helper method to handle env vars
 static std::string getenv_or_throw(const char *name) {
     const char *v = std::getenv(name);

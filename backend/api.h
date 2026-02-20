@@ -4,6 +4,7 @@
 #include <nlohmann/json.hpp>
 
 #include "anomaly_detector.h"
+#include "shared_state.h"
 #include <deque>
 #include <mutex>
 #include <string>

@@ -3,7 +3,7 @@
 #include <thread>
 #include <unordered_map>
 
-#include "anomaly.h"
+#include "anomaly_detector.h"
 #include "api.h"
 #include "data_parser.h"
 #include "socket.h"

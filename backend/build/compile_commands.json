@@ -18,6 +18,12 @@
   "output": "CMakeFiles/main.dir/api.cpp.o"
 },
 {
+  "directory": "/Users/samarth/Desktop/SAR/backend/build",
+  "command": "/usr/bin/c++  -I/Users/samarth/Desktop/SAR/backend/anomalies/.. -isystem /opt/homebrew/include -std=gnu++20 -arch arm64 -o CMakeFiles/main.dir/socket.cpp.o -c /Users/samarth/Desktop/SAR/backend/socket.cpp",
+  "file": "/Users/samarth/Desktop/SAR/backend/socket.cpp",
+  "output": "CMakeFiles/main.dir/socket.cpp.o"
+},
+{
   "directory": "/Users/samarth/Desktop/SAR/backend/build/anomalies",
   "command": "/usr/bin/c++  -I/Users/samarth/Desktop/SAR/backend/anomalies/.. -isystem /opt/homebrew/include -std=gnu++20 -arch arm64 -o CMakeFiles/anomalies.dir/priceAnomaly.cpp.o -c /Users/samarth/Desktop/SAR/backend/anomalies/priceAnomaly.cpp",
   "file": "/Users/samarth/Desktop/SAR/backend/anomalies/priceAnomaly.cpp",
