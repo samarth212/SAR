@@ -1,4 +1,6 @@
-# SAR Node/Express Server (Boilerplate)
+# SAR Node/Express Server (TypeScript Boilerplate)
+
+This is a minimal scaffold only (no routes wired yet).
 
 ## Setup
 
@@ -7,10 +9,16 @@ cd server
 npm install
 ```
 
-## Run
+## Run (dev)
 
 ```bash
 npm run dev
 ```
 
-This is a minimal scaffold only (no routes wired yet).
+## Build + Run
+
+```bash
+npm run build
+npm start
+```
+

@@ -1,15 +1,14 @@
-import express from 'express';
 import cors from 'cors';
+import express, { type Express } from 'express';
 import morgan from 'morgan';
 
-import { notFound } from './middleware/notFound.js';
 import { errorHandler } from './middleware/errorHandler.js';
+import { notFound } from './middleware/notFound.js';
 
-export function createApp() {
+export function createApp(): Express {
   const app = express();
 
   app.disable('x-powered-by');
-
   app.use(cors());
   app.use(express.json({ limit: '1mb' }));
 
@@ -24,3 +23,4 @@ export function createApp() {
 
   return app;
 }
+
