@@ -2,12 +2,14 @@ import { Router } from 'express';
 
 export const router = Router();
 
-const url = `${process.env.CPP_API_BASE_URL}/api/anomalies`;
+const base = process.env.CPP_API_BASE_URL ?? 'http://localhost:8080';
+const url = `${base}/api/anomalies`;
 
-router.get('/get-anomaly', async (req, res, next) => {
+router.get('/get-anomalies', async (req, res, next) => {
   try {
-    const data = await fetch(url, { method: 'GET' });
-    console.log(data);
+    const resp = await fetch(url);
+    const body = await resp.json();
+    res.status(resp.status).json(body);
   } catch (err) {
     next(err);
   }
