@@ -1,11 +1,8 @@
 import 'dotenv/config';
 
-import { createApp } from './app.js';
-import { config } from './config/index.js';
-
-const app = createApp();
+import app from './app';
+import { config } from './config/index';
 
 app.listen(config.port, () => {
   console.log(`server listening on :${config.port}`);
 });
-

@@ -1,26 +1,23 @@
 import cors from 'cors';
-import express, { type Express } from 'express';
-import morgan from 'morgan';
+import express from 'express';
+import helmet from 'helmet';
+import apiRouter from './routes/index';
 
-import { errorHandler } from './middleware/errorHandler.js';
-import { notFound } from './middleware/notFound.js';
+const app = express();
 
-export function createApp(): Express {
-  const app = express();
+app.use(helmet());
+app.use(cors());
+app.use(express.json());
 
-  app.disable('x-powered-by');
-  app.use(cors());
-  app.use(express.json({ limit: '1mb' }));
+app.get('/health', (_req, res) => res.json({ ok: true }));
+app.get('/', (_req, res) => res.status(200).json({ ok: true, route: 'root' }));
 
-  if (process.env.NODE_ENV !== 'test') {
-    app.use(morgan('dev'));
-  }
+app.use('/api/anomaly', apiRouter);
 
-  // Intentionally no routes yet.
+app.use((err: any, _req: any, res: any, _next: any) => {
+  const status = err?.status ?? err?.response?.status ?? 500;
+  const message = err?.message || err?.response?.data?.message || 'Internal Server Error';
+  res.status(status).json({ ok: false, error: message });
+});
 
-  app.use(notFound);
-  app.use(errorHandler);
-
-  return app;
-}
-
+export default app;

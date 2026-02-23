@@ -1,4 +1,10 @@
 /backend/.env
+/frontend/.env
+/server/.env
+
+/backend/build/
+/server/node_modules/
+/frontend/node_modules/
 .vscode
 .prettierignore
 .prettierrc
