@@ -1,8 +1,8 @@
 import { Router } from 'express';
 
-export const router = Router();
+const router = Router();
 
-router.get('/get-anomalies', async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   const base = process.env.CPP_API_BASE_URL ?? 'http://localhost:8080';
   const url = `${base}/api/anomalies`;
   try {

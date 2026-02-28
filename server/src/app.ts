@@ -1,7 +1,7 @@
 import cors from 'cors';
 import express from 'express';
 import helmet from 'helmet';
-import apiRouter from './routes/index';
+import anomaliesRouter from './routes/anomalies';
 
 const app = express();
 
@@ -12,7 +12,7 @@ app.use(express.json());
 app.get('/health', (_req, res) => res.json({ ok: true }));
 app.get('/', (_req, res) => res.status(200).json({ ok: true, route: 'root' }));
 
-app.use('/api/anomaly', apiRouter);
+app.use('/api/anomalies', anomaliesRouter);
 
 app.use((err: any, _req: any, res: any, _next: any) => {
   const status = err?.status ?? err?.response?.status ?? 500;
