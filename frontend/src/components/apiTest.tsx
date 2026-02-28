@@ -42,7 +42,7 @@ export default function ApiTest({ label = 'Test API', onClick, disabled = false 
               message = body.error;
             }
           } catch {
-            // Ignore parse errors and keep the status-based message.
+            console.log('non-critical error');
           }
 
           throw new Error(message);
