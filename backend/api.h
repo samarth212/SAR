@@ -21,9 +21,4 @@ extern std::unordered_map<std::string, SymbolState> bySymbol;
 extern std::deque<Anomaly> recentAnomalies; // keep last N anomalies
 extern std::mutex stateMutex;
 
-static http::response<http::string_body>
-handle_request(const http::request<http::string_body> &req);
-
-static void do_session(tcp::socket socket);
-
 void run_http_server(unsigned short port);

@@ -103,9 +103,4 @@ std::vector<MarketEvent> parseMessage(const std::string &jsonText);
 void updateState(std::unordered_map<std::string, SymbolState> &bySymbol,
                  const std::vector<MarketEvent> &events, std::size_t windowN = 200);
 
-class DataParser {
-  public:
-    std::vector<MarketEvent> parseMessage(const std::string &jsonText);
-};
-
 #endif
