@@ -6,6 +6,16 @@ namespace net = boost::asio;
 namespace ssl = net::ssl;
 using tcp = net::ip::tcp;
 
+static void record_anomaly(const Anomaly &anomaly) {
+    constexpr std::size_t MAX_RECENT_ANOMALIES = 100;
+
+    std::cout << anomaly.note << "\n";
+    recentAnomalies.push_back(anomaly);
+    if (recentAnomalies.size() > MAX_RECENT_ANOMALIES) {
+        recentAnomalies.pop_front();
+    }
+}
+
 // helper method to handle env vars
 static std::string getenv_or_throw(const char *name) {
     const char *v = std::getenv(name);
@@ -123,13 +133,13 @@ int run_socket() {
 
                 for (const auto &symbol : changed) {
                     if (auto a = detectPriceAnomaly(symbol, bySymbol, 2.0)) {
-                        std::cout << a->note << "\n";
+                        record_anomaly(*a);
                     }
                     if (auto a = detectSpreadAnomaly(symbol, bySymbol, 2.0)) {
-                        std::cout << a->note << "\n";
+                        record_anomaly(*a);
                     }
                     if (auto a = detectVolumeAnomaly(symbol, bySymbol, 2.0)) {
-                        std::cout << a->note << "\n";
+                        record_anomaly(*a);
                     }
                 }
             }
