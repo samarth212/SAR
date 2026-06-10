@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import TickerForm from './components/TickerForm';
+import TickerList from './components/TickerList';
 
 function App() {
   const [tickers, setTickers] = useState<string[]>([]);
@@ -20,6 +21,7 @@ function App() {
         <p>choose tickers to watch for anomaly tracking.</p>
         <TickerForm onAddTicker={addTicker} />
         <p>{tickers.length} tickers tracked</p>
+        <TickerList tickers={tickers} />
       </section>
     </main>
   );
