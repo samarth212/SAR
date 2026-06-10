@@ -14,6 +14,10 @@ function App() {
     return true;
   };
 
+  const removeTicker = (ticker: string) => {
+    setTickers((currentTickers) => currentTickers.filter((currentTicker) => currentTicker !== ticker));
+  };
+
   return (
     <main className="app-shell">
       <section className="tracker-panel">
@@ -21,7 +25,7 @@ function App() {
         <p>choose tickers to watch for anomaly tracking.</p>
         <TickerForm onAddTicker={addTicker} />
         <p>{tickers.length} tickers tracked</p>
-        <TickerList tickers={tickers} />
+        <TickerList tickers={tickers} onRemoveTicker={removeTicker} />
       </section>
     </main>
   );
