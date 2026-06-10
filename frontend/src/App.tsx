@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import './App.css';
 import TickerForm from './components/TickerForm';
 import TickerList from './components/TickerList';
 
@@ -15,7 +16,9 @@ function App() {
   };
 
   const removeTicker = (ticker: string) => {
-    setTickers((currentTickers) => currentTickers.filter((currentTicker) => currentTicker !== ticker));
+    setTickers((currentTickers) =>
+      currentTickers.filter((currentTicker) => currentTicker !== ticker),
+    );
   };
 
   return (
