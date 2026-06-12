@@ -4,6 +4,7 @@ import TickerForm from './components/TickerForm';
 import TickerList from './components/TickerList';
 
 const footerLinks = [
+  { label: 'How it works', href: '/how-it-works' },
   { label: 'FAQ', href: '/faq' },
   { label: 'Terms', href: '/terms' },
   { label: 'Privacy', href: '/privacy' },
