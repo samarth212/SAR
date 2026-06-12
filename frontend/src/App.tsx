@@ -3,6 +3,12 @@ import './App.css';
 import TickerForm from './components/TickerForm';
 import TickerList from './components/TickerList';
 
+const footerLinks = [
+  { label: 'FAQ', href: '/faq' },
+  { label: 'Terms', href: '/terms' },
+  { label: 'Privacy', href: '/privacy' },
+];
+
 function App() {
   const [tickers, setTickers] = useState<string[]>([]);
 
@@ -30,6 +36,13 @@ function App() {
         <p>{tickers.length} tickers tracked</p>
         <TickerList tickers={tickers} onRemoveTicker={removeTicker} />
       </section>
+      <footer className="dashboard-footer" aria-label="Dashboard links">
+        {footerLinks.map((link) => (
+          <a key={link.href} href={link.href}>
+            {link.label}
+          </a>
+        ))}
+      </footer>
     </main>
   );
 }
