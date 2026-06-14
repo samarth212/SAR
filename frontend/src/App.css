@@ -96,24 +96,3 @@
   color: #1f2937;
   background: #ffffff;
 }
-
-.dashboard-footer {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 18px;
-  margin-top: 40px;
-  padding-top: 20px;
-  border-top: 1px solid #d8dee7;
-}
-
-.dashboard-footer a {
-  color: #53606f;
-  font-size: 0.9rem;
-  font-weight: 700;
-  text-decoration: none;
-}
-
-.dashboard-footer a:hover {
-  color: #172033;
-  text-decoration: underline;
-}
