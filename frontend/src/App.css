@@ -1,21 +1,46 @@
 .app-shell {
   width: min(760px, 100%);
   margin: 0 auto;
-  padding: 48px 20px;
+  padding: 32px 20px 48px;
+}
+
+.app-navbar {
+  border-bottom: 1px solid #d8dee7;
+  background: #ffffff;
+}
+
+.app-navbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: min(960px, 100%);
+  margin: 0 auto;
+  padding: 14px 20px;
+}
+
+.app-brand {
+  color: #172033;
+  font-size: 1.1rem;
+  font-weight: 800;
+  text-decoration: none;
 }
 
 .app-nav {
   display: flex;
-  gap: 12px;
-  margin-bottom: 24px;
+  gap: 4px;
 }
 
 .app-nav a {
+  border-radius: 6px;
   color: #53606f;
   font-weight: 700;
+  padding: 8px 10px;
+  text-decoration: none;
 }
 
 .app-nav a.active {
+  background: #eef2f7;
   color: #1f2937;
 }
 
