@@ -4,6 +4,21 @@
   padding: 48px 20px;
 }
 
+.app-nav {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.app-nav a {
+  color: #53606f;
+  font-weight: 700;
+}
+
+.app-nav a.active {
+  color: #1f2937;
+}
+
 .tracker-panel {
   display: grid;
   gap: 18px;

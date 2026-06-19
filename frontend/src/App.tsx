@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Navigate, NavLink, Route, Routes } from 'react-router-dom';
 import './App.css';
 import TickerForm from './components/TickerForm';
 import TickerList from './components/TickerList';
@@ -23,13 +24,35 @@ function App() {
 
   return (
     <main className="app-shell">
-      <section className="tracker-panel">
-        <h1>stock anomaly dashboard</h1>
-        <p>choose tickers to watch for anomaly tracking.</p>
-        <TickerForm onAddTicker={addTicker} />
-        <p>{tickers.length} tickers tracked</p>
-        <TickerList tickers={tickers} onRemoveTicker={removeTicker} />
-      </section>
+      <nav className="app-nav">
+        <NavLink to="/tracker">tracker</NavLink>
+        <NavLink to="/dashboard">dashboard</NavLink>
+      </nav>
+
+      <Routes>
+        <Route path="/" element={<Navigate to="/tracker" replace />} />
+        <Route
+          path="/tracker"
+          element={
+            <section className="tracker-panel">
+              <h1>stock anomaly tracker</h1>
+              <p>choose tickers to watch for anomaly tracking.</p>
+              <TickerForm onAddTicker={addTicker} />
+              <p>{tickers.length} tickers tracked</p>
+              <TickerList tickers={tickers} onRemoveTicker={removeTicker} />
+            </section>
+          }
+        />
+        <Route
+          path="/dashboard"
+          element={
+            <section className="tracker-panel">
+              <h1>anomaly dashboard</h1>
+              <p>anomalies will show here.</p>
+            </section>
+          }
+        />
+      </Routes>
     </main>
   );
 }
