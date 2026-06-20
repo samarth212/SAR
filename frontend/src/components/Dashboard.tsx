@@ -70,8 +70,11 @@ export default function Dashboard({ tickers }: DashboardProps) {
 
     fetchAnomalies();
 
+    const intervalId = window.setInterval(fetchAnomalies, 3000);
+
     return () => {
       cancelled = true;
+      window.clearInterval(intervalId);
     };
   }, [tickers]);
 
