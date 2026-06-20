@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, Navigate, NavLink, Route, Routes } from 'react-router-dom';
 import './App.css';
+import Dashboard from './components/Dashboard';
 import TickerForm from './components/TickerForm';
 import TickerList from './components/TickerList';
 
@@ -57,7 +58,7 @@ function App() {
             element={
               <section className="tracker-panel">
                 <h1>anomaly dashboard</h1>
-                <p>anomalies will show here.</p>
+                <Dashboard tickers={tickers} />
               </section>
             }
           />
