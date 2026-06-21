@@ -33,7 +33,7 @@ export default function DashboardTickerNav({ tickers, selectedTicker }: Dashboar
         flexShrink: 0,
         height: '100%',
         overflowY: 'auto',
-        width: 180,
+        width: 260,
       }}
     >
       <Tabs
@@ -43,10 +43,12 @@ export default function DashboardTickerNav({ tickers, selectedTicker }: Dashboar
         aria-label="Dashboard ticker navigation"
         role="navigation"
         sx={{
-          minWidth: 180,
+          minWidth: 260,
           '& .MuiTab-root': {
             alignItems: 'flex-start',
+            fontWeight: 700,
             minHeight: 48,
+            px: 3,
           },
         }}
       >

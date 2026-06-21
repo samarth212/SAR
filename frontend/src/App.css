@@ -4,6 +4,12 @@
   padding: 32px 20px 48px;
 }
 
+.dashboard-shell {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 .app-navbar {
   border-bottom: 1px solid #d8dee7;
   background: #ffffff;
@@ -62,22 +68,26 @@
 
 .dashboard-layout {
   display: grid;
-  grid-template-columns: 180px minmax(0, 1fr);
-  min-height: calc(100vh - 160px);
-  border: 1px solid #d8dee7;
-  background: #ffffff;
+  grid-template-columns: 260px minmax(0, 1fr);
+  min-height: calc(100vh - 57px);
 }
 
 .dashboard-sidebar {
   position: sticky;
-  top: 61px;
-  height: calc(100vh - 61px);
+  top: 0;
+  height: calc(100vh - 57px);
   overflow: hidden;
 }
 
 .dashboard-content {
   min-width: 0;
-  padding: 24px;
+  padding: 48px 56px;
+}
+
+.dashboard-content h1 {
+  margin: 0 0 24px;
+  font-size: 2.25rem;
+  line-height: 1.15;
 }
 
 .ticker-form {

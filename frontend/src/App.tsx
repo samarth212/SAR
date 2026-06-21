@@ -1,11 +1,13 @@
 import { useState } from 'react';
-import { Link, Navigate, NavLink, Route, Routes } from 'react-router-dom';
+import { Link, Navigate, NavLink, Route, Routes, useLocation } from 'react-router-dom';
 import './App.css';
 import Dashboard from './components/Dashboard';
 import TickerForm from './components/TickerForm';
 import TickerList from './components/TickerList';
 
 function App() {
+  const location = useLocation();
+  const isDashboardRoute = location.pathname.startsWith('/dashboard');
   const [tickers, setTickers] = useState<string[]>([]);
 
   const addTicker = (ticker: string) => {
@@ -38,7 +40,7 @@ function App() {
         </div>
       </header>
 
-      <main className="app-shell">
+      <main className={isDashboardRoute ? 'app-shell dashboard-shell' : 'app-shell'}>
         <Routes>
           <Route path="/" element={<Navigate to="/tracker" replace />} />
           <Route
@@ -55,21 +57,11 @@ function App() {
           />
           <Route
             path="/dashboard"
-            element={
-              <section className="tracker-panel">
-                <h1>anomaly dashboard</h1>
-                <Dashboard tickers={tickers} />
-              </section>
-            }
+            element={<Dashboard tickers={tickers} />}
           />
           <Route
             path="/dashboard/:ticker"
-            element={
-              <section className="tracker-panel">
-                <h1>anomaly dashboard</h1>
-                <Dashboard tickers={tickers} />
-              </section>
-            }
+            element={<Dashboard tickers={tickers} />}
           />
         </Routes>
       </main>
