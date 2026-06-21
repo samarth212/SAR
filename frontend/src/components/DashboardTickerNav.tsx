@@ -24,14 +24,31 @@ export default function DashboardTickerNav({ tickers, selectedTicker }: Dashboar
   const selectedIndex = tickers.findIndex((ticker) => ticker === selectedTicker);
 
   return (
-    <Box sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: 224 }}>
+    <Box
+      component="aside"
+      sx={{
+        bgcolor: 'background.paper',
+        borderRight: 1,
+        borderColor: 'divider',
+        flexShrink: 0,
+        height: '100%',
+        overflowY: 'auto',
+        width: 180,
+      }}
+    >
       <Tabs
         orientation="vertical"
         variant="scrollable"
         value={selectedIndex === -1 ? false : selectedIndex}
         aria-label="Dashboard ticker navigation"
         role="navigation"
-        sx={{ borderRight: 1, borderColor: 'divider' }}
+        sx={{
+          minWidth: 180,
+          '& .MuiTab-root': {
+            alignItems: 'flex-start',
+            minHeight: 48,
+          },
+        }}
       >
         {tickers.length === 0 ? (
           <Typography color="text.secondary" sx={{ px: 3, py: 2 }}>

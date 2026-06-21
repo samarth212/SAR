@@ -82,12 +82,17 @@ export default function Dashboard({ tickers }: DashboardProps) {
   }, [tickers]);
 
   return (
-    <div>
-      <DashboardTickerNav tickers={tickers} selectedTicker={ticker} />
-      {error ? <p>{error}</p> : null}
-      {!error ? (
-        <p>{loading ? 'loading anomalies...' : `${anomalies.length} anomalies loaded`}</p>
-      ) : null}
+    <div className="dashboard-layout">
+      <div className="dashboard-sidebar">
+        <DashboardTickerNav tickers={tickers} selectedTicker={ticker} />
+      </div>
+
+      <div className="dashboard-content">
+        {error ? <p>{error}</p> : null}
+        {!error ? (
+          <p>{loading ? 'loading anomalies...' : `${anomalies.length} anomalies loaded`}</p>
+        ) : null}
+      </div>
     </div>
   );
 }

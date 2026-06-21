@@ -1,5 +1,5 @@
 .app-shell {
-  width: min(760px, 100%);
+  width: min(1160px, 100%);
   margin: 0 auto;
   padding: 32px 20px 48px;
 }
@@ -58,6 +58,26 @@
 .tracker-panel p {
   margin: 0;
   color: #53606f;
+}
+
+.dashboard-layout {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr);
+  min-height: calc(100vh - 160px);
+  border: 1px solid #d8dee7;
+  background: #ffffff;
+}
+
+.dashboard-sidebar {
+  position: sticky;
+  top: 61px;
+  height: calc(100vh - 61px);
+  overflow: hidden;
+}
+
+.dashboard-content {
+  min-width: 0;
+  padding: 24px;
 }
 
 .ticker-form {
@@ -135,4 +155,16 @@
   padding: 6px 10px;
   color: #1f2937;
   background: #ffffff;
+}
+
+@media (max-width: 700px) {
+  .dashboard-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-sidebar {
+    position: static;
+    height: auto;
+    overflow: visible;
+  }
 }
