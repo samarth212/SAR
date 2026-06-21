@@ -62,6 +62,15 @@ function App() {
               </section>
             }
           />
+          <Route
+            path="/dashboard/:ticker"
+            element={
+              <section className="tracker-panel">
+                <h1>anomaly dashboard</h1>
+                <Dashboard tickers={tickers} />
+              </section>
+            }
+          />
         </Routes>
       </main>
     </>

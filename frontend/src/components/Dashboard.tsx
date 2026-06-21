@@ -1,5 +1,6 @@
 import type { Anomaly } from '../types/anomaly';
 import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import DashboardTickerNav from './DashboardTickerNav';
 
 type DashboardProps = {
@@ -7,6 +8,7 @@ type DashboardProps = {
 };
 
 export default function Dashboard({ tickers }: DashboardProps) {
+  const { ticker } = useParams();
   const [anomalies, setAnomalies] = useState<Anomaly[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -81,7 +83,7 @@ export default function Dashboard({ tickers }: DashboardProps) {
 
   return (
     <div>
-      <DashboardTickerNav tickers={tickers} />
+      <DashboardTickerNav tickers={tickers} selectedTicker={ticker} />
       {error ? <p>{error}</p> : null}
       {!error ? (
         <p>{loading ? 'loading anomalies...' : `${anomalies.length} anomalies loaded`}</p>
