@@ -55,14 +55,8 @@ function App() {
               </section>
             }
           />
-          <Route
-            path="/dashboard"
-            element={<Dashboard tickers={tickers} />}
-          />
-          <Route
-            path="/dashboard/:ticker"
-            element={<Dashboard tickers={tickers} />}
-          />
+          <Route path="/dashboard" element={<Dashboard tickers={tickers} />} />
+          <Route path="/dashboard/:ticker" element={<Dashboard tickers={tickers} />} />
         </Routes>
       </main>
     </>

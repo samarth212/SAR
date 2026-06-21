@@ -18,10 +18,10 @@
 .app-navbar-inner {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  width: min(960px, 100%);
-  margin: 0 auto;
+  justify-content: flex-start;
+  gap: 28px;
+  width: 100%;
+  margin: 0;
   padding: 14px 20px;
 }
 
