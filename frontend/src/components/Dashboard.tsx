@@ -10,26 +10,15 @@ type DashboardProps = {
 export default function Dashboard({ tickers }: DashboardProps) {
   const { ticker } = useParams();
   const [anomalies, setAnomalies] = useState<Anomaly[]>([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
 
     const fetchAnomalies = async () => {
-      const base = import.meta.env.VITE_API_BASE_URL;
-
-      if (!base) {
-        if (!cancelled) {
-          setError('Missing VITE_API_BASE_URL');
-          setAnomalies([]);
-          setLoading(false);
-        }
-        return;
-      }
+      const base = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
 
       try {
-        setLoading(true);
         setError(null);
 
         const resp = await fetch(`${base}/api/anomalies`);
@@ -64,10 +53,6 @@ export default function Dashboard({ tickers }: DashboardProps) {
           setError(message);
           setAnomalies([]);
         }
-      } finally {
-        if (!cancelled) {
-          setLoading(false);
-        }
       }
     };
 
@@ -91,7 +76,10 @@ export default function Dashboard({ tickers }: DashboardProps) {
         <h1>{ticker}</h1>
         {error ? <p>{error}</p> : null}
         {!error ? (
-          <p>{loading ? 'loading anomalies...' : `${anomalies.length} anomalies loaded`}</p>
+          <>
+            <p>{`total anomalies: ${anomalies.length}`}</p>
+            <p>hei chinni my baby lovey pie</p>
+          </>
         ) : null}
       </div>
     </div>

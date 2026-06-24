@@ -16,16 +16,7 @@ export default function ApiTest({ label = 'Test API', onClick, disabled = false 
     let cancelled = false;
 
     const fetchAnomalies = async () => {
-      const base = import.meta.env.VITE_API_BASE_URL;
-
-      if (!base) {
-        if (!cancelled) {
-          setError('Missing VITE_API_BASE_URL');
-          setAnomalies([]);
-          setLoading(false);
-        }
-        return;
-      }
+      const base = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
 
       try {
         setLoading(true);
