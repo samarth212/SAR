@@ -78,7 +78,6 @@ export default function Dashboard({ tickers }: DashboardProps) {
         {!error ? (
           <>
             <p>{`total anomalies: ${anomalies.length}`}</p>
-            <p>hei chinni my baby lovey pie</p>
           </>
         ) : null}
       </div>
