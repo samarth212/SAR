@@ -16,7 +16,7 @@ export default function ApiTest({ label = 'Test API', onClick, disabled = false 
     let cancelled = false;
 
     const fetchAnomalies = async () => {
-      const base = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
+      const base = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001';
 
       try {
         setLoading(true);
