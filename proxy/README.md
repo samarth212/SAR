@@ -2,7 +2,7 @@
 
 Minimal local proxy for the React app.
 
-```bash
+```
 npm install
 npm run dev
 ```
