@@ -88,7 +88,7 @@ export default function Dashboard({ tickers }: DashboardProps) {
       </div>
 
       <div className="dashboard-content">
-        <h1>anomaly dashboard</h1>
+        <h1>{ticker}</h1>
         {error ? <p>{error}</p> : null}
         {!error ? (
           <p>{loading ? 'loading anomalies...' : `${anomalies.length} anomalies loaded`}</p>
