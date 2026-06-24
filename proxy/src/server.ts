@@ -31,6 +31,12 @@ app.get('/api/anomalies', async (_req, res, next) => {
   }
 });
 
+app.use((error: unknown, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+  const message = error instanceof Error ? error.message : 'Internal Server Error';
+
+  res.status(500).json({ ok: false, error: message });
+});
+
 app.listen(port, () => {
   console.log(`proxy listening on :${port}`);
 });
