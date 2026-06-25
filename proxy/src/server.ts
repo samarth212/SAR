@@ -1,6 +1,8 @@
 import 'dotenv/config';
 import cors from 'cors';
 import express from 'express';
+import { syncAnomalies } from './anomalies.js';
+import { firebaseEnabled } from './firebase.js';
 
 const app = express();
 const port = Number(process.env.PORT ?? 3001);
@@ -14,18 +16,19 @@ app.get('/', (_req, res) => {
 });
 
 app.get('/health', (_req, res) => {
-  res.json({ ok: true });
+  res.json({ ok: true, firebaseEnabled });
 });
 
 app.get('/api/anomalies', async (_req, res, next) => {
   try {
     const response = await fetch(`${cppApiBaseUrl}/api/anomalies`);
-    const body = await response.text();
+    const body: unknown = await response.json();
 
-    res
-      .status(response.status)
-      .type(response.headers.get('content-type') ?? 'application/json')
-      .send(body);
+    if (response.ok && Array.isArray(body)) {
+      await syncAnomalies(body);
+    }
+
+    res.status(response.status).json(body);
   } catch (error) {
     next(error);
   }
