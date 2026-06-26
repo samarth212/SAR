@@ -106,7 +106,8 @@
   gap: 8px;
 }
 
-.ticker-form input {
+.ticker-form input,
+.ticker-form select {
   flex: 1;
   min-width: 0;
   border: 1px solid #c8d0da;

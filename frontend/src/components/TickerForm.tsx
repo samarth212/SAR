@@ -1,11 +1,24 @@
 import { useState, type FormEvent } from 'react';
 import { isValidTicker, normalizeTicker } from '../utils/tickers';
 
-type TickerFormProps = {
-  onAddTicker: (ticker: string) => boolean;
+export type TickerOption = {
+  symbol: string;
+  name?: string;
 };
 
-export default function TickerForm({ onAddTicker }: TickerFormProps) {
+type TickerFormProps = {
+  onAddTicker: (ticker: string) => boolean;
+  tickerError: string | null;
+  tickerOptions: TickerOption[];
+  tickersLoading: boolean;
+};
+
+export default function TickerForm({
+  onAddTicker,
+  tickerError,
+  tickerOptions,
+  tickersLoading,
+}: TickerFormProps) {
   const [value, setValue] = useState('');
   const [error, setError] = useState<string | null>(null);
 
@@ -14,7 +27,12 @@ export default function TickerForm({ onAddTicker }: TickerFormProps) {
 
     const ticker = normalizeTicker(value);
     if (!isValidTicker(ticker)) {
-      setError('enter a valid ticker');
+      setError('choose a valid ticker');
+      return;
+    }
+
+    if (!tickerOptions.some((option) => option.symbol === ticker)) {
+      setError('ticker is not available');
       return;
     }
 
@@ -32,18 +50,28 @@ export default function TickerForm({ onAddTicker }: TickerFormProps) {
     <form className="ticker-form" onSubmit={handleSubmit}>
       <label htmlFor="ticker-input">ticker</label>
       <div className="ticker-form-row">
-        <input
+        <select
           id="ticker-input"
           name="ticker"
-          placeholder="AAPL"
+          disabled={tickersLoading || tickerOptions.length === 0}
           value={value}
           onChange={(event) => {
             setValue(event.target.value);
             setError(null);
           }}
-        />
-        <button type="submit">add</button>
+        >
+          <option value="">{tickersLoading ? 'loading tickers...' : 'choose a ticker'}</option>
+          {tickerOptions.map((ticker) => (
+            <option key={ticker.symbol} value={ticker.symbol}>
+              {ticker.name ? `${ticker.symbol} - ${ticker.name}` : ticker.symbol}
+            </option>
+          ))}
+        </select>
+        <button type="submit" disabled={tickersLoading || tickerOptions.length === 0}>
+          add
+        </button>
       </div>
+      {tickerError ? <p className="form-error">{tickerError}</p> : null}
       {error ? <p className="form-error">{error}</p> : null}
     </form>
   );
