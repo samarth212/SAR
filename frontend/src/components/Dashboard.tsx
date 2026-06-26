@@ -7,6 +7,55 @@ type DashboardProps = {
   tickers: string[];
 };
 
+const ANOMALY_TYPE_LABELS = [
+  'Price',
+  'Volume',
+  'Spread',
+  'Volatility',
+  'Range',
+  'Gap',
+  'Liquidity',
+  'Stale data',
+  'Parse error',
+] as const;
+
+const ANOMALY_SOURCE_LABELS = ['Trade', 'Quote', 'Bar'] as const;
+const ANOMALY_DIRECTION_LABELS = ['Up', 'Down', 'None'] as const;
+
+function anomalyTypeLabel(type: Anomaly['type']) {
+  return ANOMALY_TYPE_LABELS[type] ?? 'Unknown';
+}
+
+function anomalySourceLabel(source: Anomaly['source']) {
+  return ANOMALY_SOURCE_LABELS[source] ?? 'Unknown';
+}
+
+function anomalyDirectionLabel(direction: Anomaly['direction']) {
+  return ANOMALY_DIRECTION_LABELS[direction] ?? 'Unknown';
+}
+
+function formatNumber(value: number) {
+  return new Intl.NumberFormat('en-US', {
+    maximumFractionDigits: 4,
+  }).format(value);
+}
+
+function formatTimestamp(timestamp: string) {
+  if (!timestamp) {
+    return 'unknown time';
+  }
+
+  const date = new Date(timestamp);
+  if (Number.isNaN(date.getTime())) {
+    return timestamp;
+  }
+
+  return new Intl.DateTimeFormat('en-US', {
+    dateStyle: 'medium',
+    timeStyle: 'medium',
+  }).format(date);
+}
+
 export default function Dashboard({ tickers }: DashboardProps) {
   const { ticker } = useParams();
   const selectedTicker = ticker?.toUpperCase();
@@ -81,7 +130,66 @@ export default function Dashboard({ tickers }: DashboardProps) {
         {error ? <p>{error}</p> : null}
         {!error ? (
           <>
-            <p>{`total anomalies: ${visibleAnomalies.length}`}</p>
+            <div className="dashboard-summary">
+              <div>
+                <span>anomalies</span>
+                <strong>{visibleAnomalies.length}</strong>
+              </div>
+              <div>
+                <span>tracked tickers</span>
+                <strong>{tickers.length}</strong>
+              </div>
+            </div>
+
+            {visibleAnomalies.length === 0 ? (
+              <p className="empty-state">no anomalies found for this view</p>
+            ) : (
+              <div className="anomaly-list">
+                {visibleAnomalies.map((anomaly, index) => (
+                  <article
+                    className="anomaly-card"
+                    key={`${anomaly.symbol}-${anomaly.timestamp}-${anomaly.type}-${index}`}
+                  >
+                    <div className="anomaly-card-header">
+                      <div>
+                        <h2>{`${anomaly.symbol} ${anomalyTypeLabel(anomaly.type)}`}</h2>
+                        <p>{formatTimestamp(anomaly.timestamp)}</p>
+                      </div>
+                      <span>{anomalyDirectionLabel(anomaly.direction)}</span>
+                    </div>
+
+                    <dl className="anomaly-metrics">
+                      <div>
+                        <dt>source</dt>
+                        <dd>{anomalySourceLabel(anomaly.source)}</dd>
+                      </div>
+                      <div>
+                        <dt>value</dt>
+                        <dd>{formatNumber(anomaly.value)}</dd>
+                      </div>
+                      <div>
+                        <dt>mean</dt>
+                        <dd>{formatNumber(anomaly.mean)}</dd>
+                      </div>
+                      <div>
+                        <dt>z-score</dt>
+                        <dd>{formatNumber(anomaly.zscore)}</dd>
+                      </div>
+                      <div>
+                        <dt>lower</dt>
+                        <dd>{formatNumber(anomaly.lower)}</dd>
+                      </div>
+                      <div>
+                        <dt>upper</dt>
+                        <dd>{formatNumber(anomaly.upper)}</dd>
+                      </div>
+                    </dl>
+
+                    {anomaly.note ? <p className="anomaly-note">{anomaly.note}</p> : null}
+                  </article>
+                ))}
+              </div>
+            )}
           </>
         ) : null}
       </div>
