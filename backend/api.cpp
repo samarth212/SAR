@@ -1,5 +1,40 @@
 #include "api.h"
 
+#include <algorithm>
+#include <cctype>
+#include <vector>
+
+static std::string normalize_symbol(std::string symbol) {
+    symbol.erase(std::remove_if(symbol.begin(), symbol.end(),
+                                [](unsigned char ch) { return std::isspace(ch); }),
+                 symbol.end());
+
+    std::transform(symbol.begin(), symbol.end(), symbol.begin(),
+                   [](unsigned char ch) { return std::toupper(ch); });
+
+    return symbol;
+}
+
+static bool is_valid_symbol(const std::string &symbol) {
+    if (symbol.empty() || symbol.size() > 10)
+        return false;
+
+    return std::all_of(symbol.begin(), symbol.end(), [](unsigned char ch) {
+        return std::isalnum(ch) || ch == '.' || ch == '-';
+    });
+}
+
+static json symbols_json(const std::unordered_set<std::string> &symbols) {
+    std::vector<std::string> sorted(symbols.begin(), symbols.end());
+    std::sort(sorted.begin(), sorted.end());
+
+    json out = json::array();
+    for (const auto &symbol : sorted)
+        out.push_back(symbol);
+
+    return out;
+}
+
 static http::response<http::string_body>
 handle_request(const http::request<http::string_body> &req) {
     // CORS so React can call
@@ -8,7 +43,7 @@ handle_request(const http::request<http::string_body> &req) {
         res.set(http::field::content_type, "application/json");
         res.set("Access-Control-Allow-Origin", "*");
         res.set("Access-Control-Allow-Headers", "Content-Type");
-        res.set("Access-Control-Allow-Methods", "GET, OPTIONS");
+        res.set("Access-Control-Allow-Methods", "GET, PUT, OPTIONS");
         res.body() = body.dump();
         res.prepare_payload();
         return res;
@@ -18,17 +53,13 @@ handle_request(const http::request<http::string_body> &req) {
         return make_json(http::status::ok, json{{"ok", true}});
     }
 
-    if (req.method() != http::verb::get) {
-        return make_json(http::status::method_not_allowed, json{{"error", "GET only"}});
-    }
-
     std::string path = std::string(req.target());
 
-    if (path == "/api/health") {
+    if (path == "/api/health" && req.method() == http::verb::get) {
         return make_json(http::status::ok, json{{"ok", true}});
     }
 
-    if (path == "/api/tickers") {
+    if (path == "/api/tickers" && req.method() == http::verb::get) {
         json out = json::array();
         {
             std::lock_guard<std::mutex> lock(stateMutex); // acquire lock
@@ -38,7 +69,44 @@ handle_request(const http::request<http::string_body> &req) {
         return make_json(http::status::ok, out);
     }
 
-    if (path == "/api/anomalies") {
+    if (path == "/api/tickers/tracked" && req.method() == http::verb::put) {
+        json body;
+        try {
+            body = json::parse(req.body());
+        } catch (const json::parse_error &) {
+            return make_json(http::status::bad_request, json{{"error", "invalid JSON"}});
+        }
+
+        if (!body.is_array()) {
+            return make_json(http::status::bad_request, json{{"error", "expected ticker array"}});
+        }
+
+        std::unordered_set<std::string> nextTrackedSymbols;
+        for (const auto &item : body) {
+            if (!item.is_string()) {
+                return make_json(http::status::bad_request,
+                                 json{{"error", "ticker symbols must be strings"}});
+            }
+
+            std::string symbol = normalize_symbol(item.get<std::string>());
+            if (!is_valid_symbol(symbol)) {
+                return make_json(http::status::bad_request,
+                                 json{{"error", "invalid ticker symbol"}, {"symbol", symbol}});
+            }
+
+            nextTrackedSymbols.insert(symbol);
+        }
+
+        {
+            std::lock_guard<std::mutex> lock(subscriptionMutex);
+            trackedSymbols = nextTrackedSymbols;
+        }
+        subscriptionCv.notify_all();
+
+        return make_json(http::status::ok, json{{"tracked", symbols_json(nextTrackedSymbols)}});
+    }
+
+    if (path == "/api/anomalies" && req.method() == http::verb::get) {
         json out = json::array();
         {
             std::lock_guard<std::mutex> lock(stateMutex); // acquire locks
@@ -59,6 +127,10 @@ handle_request(const http::request<http::string_body> &req) {
             }
         }
         return make_json(http::status::ok, out);
+    }
+
+    if (req.method() != http::verb::get) {
+        return make_json(http::status::method_not_allowed, json{{"error", "method not allowed"}});
     }
 
     return make_json(http::status::not_found, json{{"error", "not found"}});

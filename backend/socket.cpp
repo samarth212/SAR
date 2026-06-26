@@ -1,5 +1,10 @@
 #include "socket.h"
 
+#include <algorithm>
+#include <atomic>
+#include <thread>
+#include <vector>
+
 namespace beast = boost::beast;
 namespace websocket = beast::websocket;
 namespace net = boost::asio;
@@ -22,6 +27,41 @@ static std::string getenv_or_throw(const char *name) {
     if (!v || !*v)
         throw std::runtime_error(std::string("Missing env var: ") + name);
     return std::string(v);
+}
+
+static std::unordered_set<std::string>
+symbols_difference(const std::unordered_set<std::string> &left,
+                   const std::unordered_set<std::string> &right) {
+    std::unordered_set<std::string> result;
+    for (const auto &symbol : left) {
+        if (!right.contains(symbol))
+            result.insert(symbol);
+    }
+    return result;
+}
+
+template <typename WebSocket>
+static void write_subscription_message(WebSocket &ws, std::mutex &writeMutex,
+                                       const std::string &action,
+                                       const std::unordered_set<std::string> &symbols) {
+    if (symbols.empty())
+        return;
+
+    std::vector<std::string> sorted(symbols.begin(), symbols.end());
+    std::sort(sorted.begin(), sorted.end());
+
+    json symbolArray = json::array();
+    for (const auto &symbol : sorted)
+        symbolArray.push_back(symbol);
+
+    const std::string message = json{{"action", action},
+                                     {"trades", symbolArray},
+                                     {"quotes", symbolArray},
+                                     {"bars", symbolArray}}
+                                    .dump();
+
+    std::lock_guard<std::mutex> lock(writeMutex);
+    ws.write(net::buffer(message));
 }
 
 int run_socket() {
@@ -97,52 +137,92 @@ int run_socket() {
 
         buffer.consume(buffer.size());
 
-        // asks for trade updates
-        std::string sub_msg =
-            R"({"action":"subscribe","trades":["AAPL"],"quotes":["AAPL"],"bars":["AAPL"]})";
-        // sends the subscribe request to Alpaca.
-        ws.write(net::buffer(sub_msg));
+        std::atomic_bool subscriptionsRunning{true};
+        std::mutex writeMutex;
 
-        // reads Alpaca’s response to the subscribe request
-        ws.read(buffer);
+        std::thread subscriptionThread([&] {
+            std::unordered_set<std::string> subscribedSymbols;
 
-        // std::cout << beast::make_printable(buffer.data()) << "\n";
+            while (subscriptionsRunning.load()) {
+                std::unordered_set<std::string> desiredSymbols;
+                {
+                    std::unique_lock<std::mutex> lock(subscriptionMutex);
+                    subscriptionCv.wait(lock, [&] {
+                        return !subscriptionsRunning.load() || trackedSymbols != subscribedSymbols;
+                    });
 
-        buffer.consume(buffer.size());
+                    if (!subscriptionsRunning.load())
+                        return;
+
+                    desiredSymbols = trackedSymbols;
+                }
+
+                const auto symbolsToSubscribe =
+                    symbols_difference(desiredSymbols, subscribedSymbols);
+                const auto symbolsToUnsubscribe =
+                    symbols_difference(subscribedSymbols, desiredSymbols);
+
+                try {
+                    write_subscription_message(ws, writeMutex, "subscribe", symbolsToSubscribe);
+                    write_subscription_message(ws, writeMutex, "unsubscribe",
+                                               symbolsToUnsubscribe);
+                    subscribedSymbols = desiredSymbols;
+                } catch (const std::exception &e) {
+                    std::cerr << "Subscription error: " << e.what() << "\n";
+                    subscriptionsRunning.store(false);
+                    subscriptionCv.notify_all();
+                    return;
+                }
+            }
+        });
+
+        subscriptionCv.notify_all();
+
+        auto stop_subscription_thread = [&] {
+            subscriptionsRunning.store(false);
+            subscriptionCv.notify_all();
+            if (subscriptionThread.joinable())
+                subscriptionThread.join();
+        };
 
         // keep reading updates forever
 
-        for (;;) {
-            // read next message from the stream
-            ws.read(buffer);
+        try {
+            for (;;) {
+                // read next message from the stream
+                ws.read(buffer);
 
-            // Convert to string
-            std::string message = beast::buffers_to_string(buffer.data());
-            buffer.consume(buffer.size());
+                // Convert to string
+                std::string message = beast::buffers_to_string(buffer.data());
+                buffer.consume(buffer.size());
 
-            auto events = parseMessage(message);
+                auto events = parseMessage(message);
 
-            {
-                std::lock_guard<std::mutex> lock(stateMutex);
-                updateState(bySymbol, events);
+                {
+                    std::lock_guard<std::mutex> lock(stateMutex);
+                    updateState(bySymbol, events);
 
-                std::unordered_set<std::string> changed;
-                changed.reserve(events.size());
-                for (const auto &ev : events)
-                    changed.insert(ev.symbol);
+                    std::unordered_set<std::string> changed;
+                    changed.reserve(events.size());
+                    for (const auto &ev : events)
+                        changed.insert(ev.symbol);
 
-                for (const auto &symbol : changed) {
-                    if (auto a = detectPriceAnomaly(symbol, bySymbol, 2.0)) {
-                        record_anomaly(*a);
-                    }
-                    if (auto a = detectSpreadAnomaly(symbol, bySymbol, 2.0)) {
-                        record_anomaly(*a);
-                    }
-                    if (auto a = detectVolumeAnomaly(symbol, bySymbol, 2.0)) {
-                        record_anomaly(*a);
+                    for (const auto &symbol : changed) {
+                        if (auto a = detectPriceAnomaly(symbol, bySymbol, 2.0)) {
+                            record_anomaly(*a);
+                        }
+                        if (auto a = detectSpreadAnomaly(symbol, bySymbol, 2.0)) {
+                            record_anomaly(*a);
+                        }
+                        if (auto a = detectVolumeAnomaly(symbol, bySymbol, 2.0)) {
+                            record_anomaly(*a);
+                        }
                     }
                 }
             }
+        } catch (...) {
+            stop_subscription_thread();
+            throw;
         }
     } catch (const std::exception &e) {
         std::cerr << "Error: " << e.what() << "\n";

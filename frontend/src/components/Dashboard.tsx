@@ -9,8 +9,12 @@ type DashboardProps = {
 
 export default function Dashboard({ tickers }: DashboardProps) {
   const { ticker } = useParams();
+  const selectedTicker = ticker?.toUpperCase();
   const [anomalies, setAnomalies] = useState<Anomaly[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const visibleAnomalies = selectedTicker
+    ? anomalies.filter((anomaly) => anomaly.symbol.toUpperCase() === selectedTicker)
+    : anomalies;
 
   useEffect(() => {
     let cancelled = false;
@@ -64,20 +68,20 @@ export default function Dashboard({ tickers }: DashboardProps) {
       cancelled = true;
       window.clearInterval(intervalId);
     };
-  }, [tickers]);
+  }, []);
 
   return (
     <div className="dashboard-layout">
       <div className="dashboard-sidebar">
-        <DashboardTickerNav tickers={tickers} selectedTicker={ticker} />
+        <DashboardTickerNav tickers={tickers} selectedTicker={selectedTicker} />
       </div>
 
       <div className="dashboard-content">
-        <h1>{ticker}</h1>
+        <h1>{selectedTicker ?? 'dashboard'}</h1>
         {error ? <p>{error}</p> : null}
         {!error ? (
           <>
-            <p>{`total anomalies: ${anomalies.length}`}</p>
+            <p>{`total anomalies: ${visibleAnomalies.length}`}</p>
           </>
         ) : null}
       </div>

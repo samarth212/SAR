@@ -4,27 +4,62 @@ import './App.css';
 import Dashboard from './components/Dashboard';
 import TickerForm, { type TickerOption } from './components/TickerForm';
 import TickerList from './components/TickerList';
+import { TOP_TICKERS } from './data/topTickers';
 
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001';
+
+function parseTickerOption(ticker: unknown): TickerOption | null {
+  if (!ticker || typeof ticker !== 'object') {
+    return null;
+  }
+
+  const symbol =
+    'symbol' in ticker && typeof ticker.symbol === 'string'
+      ? ticker.symbol.trim().toUpperCase()
+      : '';
+
+  if (!symbol) {
+    return null;
+  }
+
+  const tickerOption: TickerOption = { symbol };
+
+  if ('name' in ticker && typeof ticker.name === 'string' && ticker.name.trim()) {
+    tickerOption.name = ticker.name.trim();
+  }
+
+  return tickerOption;
+}
+
+async function readApiError(response: Response, fallback: string) {
+  try {
+    const body: unknown = await response.json();
+    if (body && typeof body === 'object' && 'error' in body && typeof body.error === 'string') {
+      return body.error;
+    }
+  } catch {
+    return fallback;
+  }
+
+  return fallback;
+}
 
 function App() {
   const location = useLocation();
   const isDashboardRoute = location.pathname.startsWith('/dashboard');
   const [tickers, setTickers] = useState<string[]>([]);
-  const [tickerOptions, setTickerOptions] = useState<TickerOption[]>([]);
-  const [tickersLoading, setTickersLoading] = useState(true);
   const [tickerError, setTickerError] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
 
-    const fetchTickers = async () => {
+    const fetchTrackedTickers = async () => {
       try {
         setTickerError(null);
 
         const response = await fetch(`${apiBaseUrl}/api/tickers`);
         if (!response.ok) {
-          throw new Error(`Failed to load tickers (${response.status})`);
+          throw new Error(`Failed to load tracked tickers (${response.status})`);
         }
 
         const data: unknown = await response.json();
@@ -33,64 +68,77 @@ function App() {
         }
 
         const nextTickerOptions = data
-          .map((ticker) => {
-            if (!ticker || typeof ticker !== 'object') {
-              return null;
-            }
-
-            const symbol = 'symbol' in ticker && typeof ticker.symbol === 'string'
-              ? ticker.symbol.trim().toUpperCase()
-              : '';
-
-            if (!symbol) {
-              return null;
-            }
-
-            const tickerOption: TickerOption = { symbol };
-            if ('name' in ticker && typeof ticker.name === 'string' && ticker.name.trim()) {
-              tickerOption.name = ticker.name.trim();
-            }
-
-            return tickerOption;
-          })
+          .map((ticker) => parseTickerOption(ticker))
           .filter((ticker): ticker is TickerOption => ticker !== null);
 
         if (!cancelled) {
-          setTickerOptions(nextTickerOptions);
+          setTickers(nextTickerOptions.map((ticker) => ticker.symbol));
         }
       } catch (error) {
         if (!cancelled) {
-          const message = error instanceof Error ? error.message : 'Failed to load tickers';
+          const message = error instanceof Error ? error.message : 'Failed to load tracked tickers';
           setTickerError(message);
-          setTickerOptions([]);
-        }
-      } finally {
-        if (!cancelled) {
-          setTickersLoading(false);
         }
       }
     };
 
-    fetchTickers();
+    fetchTrackedTickers();
 
     return () => {
       cancelled = true;
     };
   }, []);
 
-  const addTicker = (ticker: string) => {
+  const addTicker = async (ticker: string) => {
     if (tickers.includes(ticker)) {
       return false;
     }
 
-    setTickers((currentTickers) => [...currentTickers, ticker]);
+    const tickerOption = TOP_TICKERS.find((option) => option.symbol === ticker);
+    const response = await fetch(`${apiBaseUrl}/api/tickers/${encodeURIComponent(ticker)}/track`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name: tickerOption?.name }),
+    });
+
+    if (!response.ok) {
+      const message = await readApiError(response, `Failed to track ${ticker}`);
+      throw new Error(message);
+    }
+
+    const updatedTicker = parseTickerOption(await response.json());
+    const symbol = updatedTicker?.symbol ?? ticker;
+
+    setTickers((currentTickers) =>
+      currentTickers.includes(symbol) ? currentTickers : [...currentTickers, symbol],
+    );
     return true;
   };
 
-  const removeTicker = (ticker: string) => {
-    setTickers((currentTickers) =>
-      currentTickers.filter((currentTicker) => currentTicker !== ticker),
-    );
+  const removeTicker = async (ticker: string) => {
+    try {
+      const response = await fetch(
+        `${apiBaseUrl}/api/tickers/${encodeURIComponent(ticker)}/track`,
+        {
+          method: 'DELETE',
+        },
+      );
+
+      if (!response.ok) {
+        const message = await readApiError(response, `Failed to remove ${ticker}`);
+        throw new Error(message);
+      }
+
+      setTickers((currentTickers) =>
+        currentTickers.filter((currentTicker) => currentTicker !== ticker),
+      );
+      setTickerError(null);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Failed to remove ticker';
+      setTickerError(message);
+    }
   };
 
   return (
@@ -120,8 +168,8 @@ function App() {
                 <TickerForm
                   onAddTicker={addTicker}
                   tickerError={tickerError}
-                  tickerOptions={tickerOptions}
-                  tickersLoading={tickersLoading}
+                  tickerOptions={TOP_TICKERS}
+                  trackedTickers={tickers}
                 />
                 <p>{tickers.length} tickers tracked</p>
                 <TickerList tickers={tickers} onRemoveTicker={removeTicker} />

@@ -1,6 +1,7 @@
 #include <deque>
 #include <algorithm>
 #include <cctype>
+#include <condition_variable>
 #include <cstdlib>
 #include <filesystem>
 #include <fstream>
@@ -9,6 +10,7 @@
 #include <string_view>
 #include <thread>
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 #include "anomaly_detector.h"
@@ -19,6 +21,9 @@
 std::unordered_map<std::string, SymbolState> bySymbol;
 std::deque<Anomaly> recentAnomalies;
 std::mutex stateMutex;
+std::unordered_set<std::string> trackedSymbols;
+std::mutex subscriptionMutex;
+std::condition_variable subscriptionCv;
 
 static std::string trim(std::string value) {
     auto is_space = [](unsigned char ch) { return std::isspace(ch); };

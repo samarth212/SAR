@@ -7,23 +7,27 @@ export type TickerOption = {
 };
 
 type TickerFormProps = {
-  onAddTicker: (ticker: string) => boolean;
+  onAddTicker: (ticker: string) => Promise<boolean>;
   tickerError: string | null;
-  tickerOptions: TickerOption[];
-  tickersLoading: boolean;
+  tickerOptions: readonly TickerOption[];
+  trackedTickers: string[];
 };
 
 export default function TickerForm({
   onAddTicker,
   tickerError,
   tickerOptions,
-  tickersLoading,
+  trackedTickers,
 }: TickerFormProps) {
   const [value, setValue] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (submitting) {
+      return;
+    }
 
     const ticker = normalizeTicker(value);
     if (!isValidTicker(ticker)) {
@@ -36,14 +40,23 @@ export default function TickerForm({
       return;
     }
 
-    const added = onAddTicker(ticker);
-    if (!added) {
-      setError('ticker is already tracked');
-      return;
-    }
+    setSubmitting(true);
 
-    setValue('');
-    setError(null);
+    try {
+      const added = await onAddTicker(ticker);
+      if (!added) {
+        setError('ticker is already tracked');
+        return;
+      }
+
+      setValue('');
+      setError(null);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Failed to track ticker';
+      setError(message);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -53,22 +66,23 @@ export default function TickerForm({
         <select
           id="ticker-input"
           name="ticker"
-          disabled={tickersLoading || tickerOptions.length === 0}
+          disabled={submitting || tickerOptions.length === 0}
           value={value}
           onChange={(event) => {
             setValue(event.target.value);
             setError(null);
           }}
         >
-          <option value="">{tickersLoading ? 'loading tickers...' : 'choose a ticker'}</option>
+          <option value="">choose a ticker</option>
           {tickerOptions.map((ticker) => (
             <option key={ticker.symbol} value={ticker.symbol}>
               {ticker.name ? `${ticker.symbol} - ${ticker.name}` : ticker.symbol}
+              {trackedTickers.includes(ticker.symbol) ? ' (tracked)' : ''}
             </option>
           ))}
         </select>
-        <button type="submit" disabled={tickersLoading || tickerOptions.length === 0}>
-          add
+        <button type="submit" disabled={submitting || tickerOptions.length === 0}>
+          {submitting ? 'adding' : 'add'}
         </button>
       </div>
       {tickerError ? <p className="form-error">{tickerError}</p> : null}
