@@ -2,7 +2,7 @@ import 'dotenv/config';
 import cors from 'cors';
 import express from 'express';
 import { syncAnomalies } from './anomalies.js';
-import { syncTickers } from './tickers.js';
+import { listTickers } from './tickers.js';
 import { firebaseEnabled } from './firebase.js';
 
 const app = express();
@@ -37,18 +37,8 @@ app.get('/api/anomalies', async (_req, res, next) => {
 
 app.get('/api/tickers', async (_req, res, next) => {
   try {
-    let response = await fetch(`${cppApiBaseUrl}/api/tickers`);
-    if (response.status === 404) {
-      response = await fetch(`${cppApiBaseUrl}/api/symbols`);
-    }
-
-    const body: unknown = await response.json();
-
-    if (response.ok && Array.isArray(body)) {
-      await syncTickers(body);
-    }
-
-    res.status(response.status).json(body);
+    const tickers = await listTickers();
+    res.json(tickers);
   } catch (error) {
     next(error);
   }

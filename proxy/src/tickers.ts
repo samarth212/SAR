@@ -1,32 +1,37 @@
-import { FieldValue } from 'firebase-admin/firestore';
 import { db } from './firebase.js';
 
 const normalizeTicker = (ticker: string) => ticker.trim().toUpperCase();
 
-export const syncTickers = async (tickers: string[]) => {
-  if (!db || tickers.length === 0) {
-    return 0;
+export type Ticker = {
+  symbol: string;
+  name?: string;
+};
+
+export const listTickers = async () => {
+  if (!db) {
+    return [];
   }
 
-  const uniqueTickers = [...new Set(tickers.map(normalizeTicker).filter(Boolean))];
-  if (uniqueTickers.length === 0) {
-    return 0;
-  }
+  const snapshot = await db.collection('tickers').get();
+  const tickers = snapshot.docs
+    .map((doc) => {
+      const data = doc.data();
+      const symbol =
+        typeof data.symbol === 'string' ? normalizeTicker(data.symbol) : normalizeTicker(doc.id);
+      const enabled = typeof data.enabled === 'boolean' ? data.enabled : true;
 
-  const batch = db.batch();
+      if (!symbol || !enabled) {
+        return null;
+      }
 
-  for (const ticker of uniqueTickers) {
-    const ref = db.collection('tickers').doc(ticker);
-    batch.set(
-      ref,
-      {
-        symbol: ticker,
-        syncedAt: FieldValue.serverTimestamp(),
-      },
-      { merge: true },
-    );
-  }
+      const ticker: Ticker = { symbol };
+      if (typeof data.name === 'string' && data.name.trim()) {
+        ticker.name = data.name.trim();
+      }
 
-  await batch.commit();
-  return uniqueTickers.length;
+      return ticker;
+    })
+    .filter((ticker): ticker is Ticker => ticker !== null);
+
+  return tickers.sort((a, b) => a.symbol.localeCompare(b.symbol));
 };
