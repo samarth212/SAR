@@ -28,7 +28,7 @@ handle_request(const http::request<http::string_body> &req) {
         return make_json(http::status::ok, json{{"ok", true}});
     }
 
-    if (path == "/api/symbols") {
+    if (path == "/api/tickers") {
         json out = json::array();
         {
             std::lock_guard<std::mutex> lock(stateMutex); // acquire lock

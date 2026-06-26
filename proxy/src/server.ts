@@ -2,6 +2,7 @@ import 'dotenv/config';
 import cors from 'cors';
 import express from 'express';
 import { syncAnomalies } from './anomalies.js';
+import { syncTickers } from './tickers.js';
 import { firebaseEnabled } from './firebase.js';
 
 const app = express();
@@ -34,11 +35,32 @@ app.get('/api/anomalies', async (_req, res, next) => {
   }
 });
 
-app.use((error: unknown, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
-  const message = error instanceof Error ? error.message : 'Internal Server Error';
+app.get('/api/tickers', async (_req, res, next) => {
+  try {
+    let response = await fetch(`${cppApiBaseUrl}/api/tickers`);
+    if (response.status === 404) {
+      response = await fetch(`${cppApiBaseUrl}/api/symbols`);
+    }
 
-  res.status(500).json({ ok: false, error: message });
+    const body: unknown = await response.json();
+
+    if (response.ok && Array.isArray(body)) {
+      await syncTickers(body);
+    }
+
+    res.status(response.status).json(body);
+  } catch (error) {
+    next(error);
+  }
 });
+
+app.use(
+  (error: unknown, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+    const message = error instanceof Error ? error.message : 'Internal Server Error';
+
+    res.status(500).json({ ok: false, error: message });
+  },
+);
 
 app.listen(port, () => {
   console.log(`proxy listening on :${port}`);
