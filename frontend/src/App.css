@@ -107,25 +107,31 @@
 
 .dashboard-layout {
   display: grid;
-  grid-template-columns: 260px minmax(0, 1fr);
-  min-height: calc(100vh - 57px);
+  grid-template-columns: 280px minmax(0, 1fr);
+  min-height: calc(100vh - 65px);
+  background:
+    radial-gradient(circle at 70% 0%, rgba(34, 211, 238, 0.08), transparent 32rem),
+    rgba(7, 16, 24, 0.56);
 }
 
 .dashboard-sidebar {
   position: sticky;
   top: 0;
-  height: calc(100vh - 57px);
+  height: calc(100vh - 65px);
   overflow: hidden;
+  border-right: 1px solid var(--color-border);
+  background: rgba(6, 13, 22, 0.76);
 }
 
 .dashboard-content {
   min-width: 0;
-  padding: 48px 56px;
+  padding: 48px 56px 72px;
 }
 
 .dashboard-content h1 {
   margin: 0 0 24px;
-  font-size: 2.25rem;
+  color: var(--color-text);
+  font-size: clamp(2rem, 4vw, 3rem);
   line-height: 1.15;
 }
 
