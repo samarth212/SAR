@@ -293,6 +293,20 @@
   color: var(--color-text);
   background: rgba(7, 16, 24, 0.74);
   font: inherit;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    background 160ms ease;
+}
+
+.ticker-form select:hover {
+  border-color: rgba(103, 232, 249, 0.34);
+  background: rgba(9, 20, 32, 0.9);
+}
+
+.ticker-form select:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
 }
 
 .ticker-form button,
@@ -369,14 +383,51 @@
   background: rgba(15, 28, 42, 0.86);
 }
 
+@media (max-width: 900px) {
+  .app-shell {
+    padding: 28px 18px 44px;
+  }
+
+  .dashboard-layout {
+    grid-template-columns: 230px minmax(0, 1fr);
+  }
+
+  .dashboard-content {
+    padding: 36px 28px 56px;
+  }
+}
+
 @media (max-width: 700px) {
+  .app-navbar-inner {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+    padding: 14px 18px;
+  }
+
+  .app-nav {
+    width: 100%;
+  }
+
+  .app-nav a {
+    flex: 1;
+    text-align: center;
+  }
+
+  .ticker-form-row {
+    flex-direction: column;
+  }
+
   .dashboard-layout {
     grid-template-columns: 1fr;
+    min-height: auto;
   }
 
   .dashboard-sidebar {
     position: static;
     height: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--color-border);
     overflow: visible;
   }
 
@@ -384,8 +435,16 @@
     padding: 32px 20px;
   }
 
+  .tracker-panel {
+    padding: 22px;
+  }
+
   .dashboard-summary,
   .anomaly-metrics {
     grid-template-columns: 1fr;
+  }
+
+  .anomaly-card-header {
+    flex-direction: column;
   }
 }
