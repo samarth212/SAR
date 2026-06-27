@@ -155,7 +155,9 @@ export default function Dashboard({ tickers }: DashboardProps) {
                         <h2>{`${anomaly.symbol} ${anomalyTypeLabel(anomaly.type)}`}</h2>
                         <p>{formatTimestamp(anomaly.timestamp)}</p>
                       </div>
-                      <span>{anomalyDirectionLabel(anomaly.direction)}</span>
+                      <span className={`direction-badge direction-${anomaly.direction}`}>
+                        {anomalyDirectionLabel(anomaly.direction)}
+                      </span>
                     </div>
 
                     <dl className="anomaly-metrics">
