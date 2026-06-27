@@ -73,7 +73,7 @@ export default function DashboardTickerNav({ tickers, selectedTicker }: Dashboar
       >
         {tickers.length === 0 ? (
           <Typography sx={{ color: '#93a8bb', px: 2, py: 2 }}>
-            no tickers tracked yet
+            No tickers tracked yet.
           </Typography>
         ) : (
           tickers.map((ticker) => (

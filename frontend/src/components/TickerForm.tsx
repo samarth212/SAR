@@ -31,12 +31,12 @@ export default function TickerForm({
 
     const ticker = normalizeTicker(value);
     if (!isValidTicker(ticker)) {
-      setError('choose a valid ticker');
+      setError('Choose a valid ticker.');
       return;
     }
 
     if (!tickerOptions.some((option) => option.symbol === ticker)) {
-      setError('ticker is not available');
+      setError('Ticker is not available.');
       return;
     }
 
@@ -45,14 +45,14 @@ export default function TickerForm({
     try {
       const added = await onAddTicker(ticker);
       if (!added) {
-        setError('ticker is already tracked');
+        setError('Ticker is already tracked.');
         return;
       }
 
       setValue('');
       setError(null);
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Failed to track ticker';
+      const message = error instanceof Error ? error.message : 'Failed to track ticker.';
       setError(message);
     } finally {
       setSubmitting(false);
@@ -61,7 +61,7 @@ export default function TickerForm({
 
   return (
     <form className="ticker-form" onSubmit={handleSubmit}>
-      <label htmlFor="ticker-input">ticker</label>
+      <label htmlFor="ticker-input">Ticker</label>
       <div className="ticker-form-row">
         <select
           id="ticker-input"
@@ -73,7 +73,7 @@ export default function TickerForm({
             setError(null);
           }}
         >
-          <option value="">choose a ticker</option>
+          <option value="">Choose a ticker</option>
           {tickerOptions.map((ticker) => (
             <option key={ticker.symbol} value={ticker.symbol}>
               {ticker.name ? `${ticker.symbol} - ${ticker.name}` : ticker.symbol}
@@ -82,7 +82,7 @@ export default function TickerForm({
           ))}
         </select>
         <button type="submit" disabled={submitting || tickerOptions.length === 0}>
-          {submitting ? 'adding' : 'add'}
+          {submitting ? 'Adding' : 'Add'}
         </button>
       </div>
       {tickerError ? <p className="form-error">{tickerError}</p> : null}

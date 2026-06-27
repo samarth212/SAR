@@ -42,7 +42,7 @@ function formatNumber(value: number) {
 
 function formatTimestamp(timestamp: string) {
   if (!timestamp) {
-    return 'unknown time';
+    return 'Unknown time';
   }
 
   const date = new Date(timestamp);
@@ -126,23 +126,23 @@ export default function Dashboard({ tickers }: DashboardProps) {
       </div>
 
       <div className="dashboard-content">
-        <h1>{selectedTicker ?? 'dashboard'}</h1>
+        <h1>{selectedTicker ?? 'Dashboard'}</h1>
         {error ? <p>{error}</p> : null}
         {!error ? (
           <>
             <div className="dashboard-summary">
               <div>
-                <span>anomalies</span>
+                <span>Anomalies</span>
                 <strong>{visibleAnomalies.length}</strong>
               </div>
               <div>
-                <span>tracked tickers</span>
+                <span>Tracked tickers</span>
                 <strong>{tickers.length}</strong>
               </div>
             </div>
 
             {visibleAnomalies.length === 0 ? (
-              <p className="empty-state">no anomalies found for this view</p>
+              <p className="empty-state">No anomalies found for this view.</p>
             ) : (
               <div className="anomaly-list">
                 {visibleAnomalies.map((anomaly, index) => (
@@ -162,27 +162,27 @@ export default function Dashboard({ tickers }: DashboardProps) {
 
                     <dl className="anomaly-metrics">
                       <div>
-                        <dt>source</dt>
+                        <dt>Source</dt>
                         <dd>{anomalySourceLabel(anomaly.source)}</dd>
                       </div>
                       <div>
-                        <dt>value</dt>
+                        <dt>Value</dt>
                         <dd>{formatNumber(anomaly.value)}</dd>
                       </div>
                       <div>
-                        <dt>mean</dt>
+                        <dt>Mean</dt>
                         <dd>{formatNumber(anomaly.mean)}</dd>
                       </div>
                       <div>
-                        <dt>z-score</dt>
+                        <dt>Z-score</dt>
                         <dd>{formatNumber(anomaly.zscore)}</dd>
                       </div>
                       <div>
-                        <dt>lower</dt>
+                        <dt>Lower</dt>
                         <dd>{formatNumber(anomaly.lower)}</dd>
                       </div>
                       <div>
-                        <dt>upper</dt>
+                        <dt>Upper</dt>
                         <dd>{formatNumber(anomaly.upper)}</dd>
                       </div>
                     </dl>

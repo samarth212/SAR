@@ -150,8 +150,8 @@ function App() {
           </Link>
 
           <nav className="app-nav" aria-label="Main navigation">
-            <NavLink to="/tracker">tracker</NavLink>
-            <NavLink to="/dashboard">dashboard</NavLink>
+            <NavLink to="/tracker">Tracker</NavLink>
+            <NavLink to="/dashboard">Dashboard</NavLink>
           </nav>
         </div>
       </header>
@@ -163,8 +163,8 @@ function App() {
             path="/tracker"
             element={
               <section className="tracker-panel">
-                <h1>stock anomaly tracker</h1>
-                <p>choose tickers to watch for anomaly tracking.</p>
+                <h1>Stock Anomaly Tracker</h1>
+                <p>Choose tickers to watch for anomaly tracking.</p>
                 <TickerForm
                   onAddTicker={addTicker}
                   tickerError={tickerError}

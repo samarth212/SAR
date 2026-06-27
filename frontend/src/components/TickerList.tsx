@@ -5,7 +5,7 @@ type TickerListProps = {
 
 export default function TickerList({ tickers, onRemoveTicker }: TickerListProps) {
   if (tickers.length === 0) {
-    return <p className="empty-state">no tickers tracked yet</p>;
+    return <p className="empty-state">No tickers tracked yet.</p>;
   }
 
   return (
@@ -14,7 +14,7 @@ export default function TickerList({ tickers, onRemoveTicker }: TickerListProps)
         <li key={ticker}>
           <span>{ticker}</span>
           <button type="button" onClick={() => onRemoveTicker(ticker)}>
-            remove
+            Remove
           </button>
         </li>
       ))}
