@@ -112,6 +112,6 @@ app.use(
   },
 );
 
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
   console.log(`proxy listening on :${port}`);
 });
