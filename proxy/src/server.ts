@@ -1,6 +1,8 @@
 import 'dotenv/config';
 import cors from 'cors';
 import express from 'express';
+import { existsSync } from 'node:fs';
+import path from 'node:path';
 import { syncAnomalies } from './anomalies.js';
 import { listTickers, trackTicker, untrackTicker, TickerError, type Ticker } from './tickers.js';
 import { firebaseEnabled } from './firebase.js';
@@ -8,6 +10,9 @@ import { firebaseEnabled } from './firebase.js';
 const app = express();
 const port = Number(process.env.PORT ?? 3001);
 const cppApiBaseUrl = (process.env.CPP_API_BASE_URL ?? 'http://localhost:8080').replace(/\/$/, '');
+const frontendDistDir = process.env.FRONTEND_DIST_DIR ?? path.resolve(process.cwd(), '../frontend/dist');
+const frontendIndexPath = path.join(frontendDistDir, 'index.html');
+const hasFrontendDist = existsSync(frontendIndexPath);
 
 async function readBackendError(response: Response) {
   try {
@@ -46,10 +51,6 @@ function syncCppTrackedTickersBestEffort(tickers: Ticker[]) {
 
 app.use(cors());
 app.use(express.json());
-
-app.get('/', (_req, res) => {
-  res.json({ ok: true, route: 'root' });
-});
 
 app.get('/health', (_req, res) => {
   res.json({ ok: true, firebaseEnabled });
@@ -102,6 +103,23 @@ app.delete('/api/tickers/:symbol/track', async (req, res, next) => {
     next(error);
   }
 });
+
+if (hasFrontendDist) {
+  app.use(express.static(frontendDistDir));
+
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api/')) {
+      next();
+      return;
+    }
+
+    res.sendFile(frontendIndexPath);
+  });
+} else {
+  app.get('/', (_req, res) => {
+    res.json({ ok: true, route: 'root' });
+  });
+}
 
 app.use(
   (error: unknown, _req: express.Request, res: express.Response, _next: express.NextFunction) => {

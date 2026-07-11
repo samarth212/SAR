@@ -6,7 +6,9 @@ import TickerForm, { type TickerOption } from './components/TickerForm';
 import TickerList from './components/TickerList';
 import { TOP_TICKERS } from './data/topTickers';
 
-const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001';
+const apiBaseUrl =
+  import.meta.env.VITE_API_BASE_URL ||
+  (import.meta.env.PROD ? window.location.origin : 'http://localhost:3001');
 
 function parseTickerOption(ticker: unknown): TickerOption | null {
   if (!ticker || typeof ticker !== 'object') {

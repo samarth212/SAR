@@ -3,6 +3,10 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import DashboardTickerNav from './DashboardTickerNav';
 
+const apiBaseUrl =
+  import.meta.env.VITE_API_BASE_URL ||
+  (import.meta.env.PROD ? window.location.origin : 'http://localhost:3001');
+
 type DashboardProps = {
   tickers: string[];
 };
@@ -69,12 +73,10 @@ export default function Dashboard({ tickers }: DashboardProps) {
     let cancelled = false;
 
     const fetchAnomalies = async () => {
-      const base = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001';
-
       try {
         setError(null);
 
-        const resp = await fetch(`${base}/api/anomalies`);
+        const resp = await fetch(`${apiBaseUrl}/api/anomalies`);
 
         if (!resp.ok) {
           let message = `Request failed with status ${resp.status}`;
